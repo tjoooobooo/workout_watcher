@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "46132335341",
+    "project_id": "track-my-workout",
+    "storage_bucket": "track-my-workout.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46132335341:android:07a39f85a3099dd11872e4",
+        "android_client_info": {
+          "package_name": "de.qabonelama.track_my_workout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "46132335341-5an5pkj4banvnecv0vafkqki19l9q8v5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.qabonelama.track_my_workout",
+            "certificate_hash": "52fe1a991cff5943b7f7438c8b0b0d23579a30bf"
+          }
+        },
+        {
+          "client_id": "46132335341-gdm174l1e26dce1fcdmdas6b3pv5obf4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE_hmHYv2tGmHlYvaOQFViyjhvARvGWBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "46132335341-gdm174l1e26dce1fcdmdas6b3pv5obf4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46132335341:android:1f62fe30390161451872e4",
+        "android_client_info": {
+          "package_name": "de.thomas.workout_watcher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "46132335341-gdm174l1e26dce1fcdmdas6b3pv5obf4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE_hmHYv2tGmHlYvaOQFViyjhvARvGWBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "46132335341-gdm174l1e26dce1fcdmdas6b3pv5obf4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
