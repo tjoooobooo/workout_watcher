@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:workout_watcher/core/login/bloc/bloc.dart';
-import 'package:workout_watcher/core/login/data/models/user_model.dart';
-import 'package:workout_watcher/core/login/domain/repositorys/login_repository.dart';
+import 'package:workout_watcher/core/features/login/bloc/bloc.dart';
+import 'package:workout_watcher/core/features/login/data/models/user_model.dart';
+import 'package:workout_watcher/core/features/login/domain/repositorys/login_repository.dart';
 
 class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
   final LoginRepository loginRepository;

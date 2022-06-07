@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workout_watcher/Widgets/CustomFormField.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
-import 'package:workout_watcher/core/login/bloc/auth_event.dart';
-import 'package:workout_watcher/core/login/bloc/bloc.dart';
+import 'package:workout_watcher/core/features/login/bloc/bloc.dart';
 import 'package:workout_watcher/utils/AuthenticationService.dart';
 
 class RegistrationContainer extends StatefulWidget {

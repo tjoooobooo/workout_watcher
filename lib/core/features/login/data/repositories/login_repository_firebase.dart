@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:workout_watcher/core/error/failures.dart';
-import 'package:workout_watcher/core/login/data/models/user_model.dart';
-import 'package:workout_watcher/core/login/domain/repositorys/login_repository.dart';
+import 'package:workout_watcher/core/features/login/data/models/user_model.dart';
+import 'package:workout_watcher/core/features/login/domain/repositorys/login_repository.dart';
 
 class LoginRepositoryFirebase extends LoginRepository {
   final firebase_auth.FirebaseAuth _firebaseAuth;

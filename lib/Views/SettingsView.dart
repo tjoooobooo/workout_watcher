@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
-import 'package:workout_watcher/core/login/bloc/bloc.dart';
+import 'package:workout_watcher/core/features/login/bloc/bloc.dart';
 import 'package:workout_watcher/navDrawer/DefaultNavDrawer.dart';
 
 class SettingsView extends StatefulWidget {

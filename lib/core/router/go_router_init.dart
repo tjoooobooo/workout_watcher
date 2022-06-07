@@ -1,8 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:workout_watcher/Views/DashboardView.dart';
 import 'package:workout_watcher/Views/SettingsView.dart';
-import 'package:workout_watcher/core/login/bloc/bloc.dart';
-import 'package:workout_watcher/core/login/presentation/pages/login_page.dart';
+import 'package:workout_watcher/core/features/login/bloc/bloc.dart';
+import 'package:workout_watcher/core/features/login/presentation/pages/login_page.dart';
 
 GoRouter initGoRouter(AuthBloc authBloc) {
   return GoRouter(

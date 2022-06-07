@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:workout_watcher/core/login/bloc/bloc.dart';
-import 'package:workout_watcher/core/login/data/models/user_model.dart';
+import 'package:workout_watcher/core/features/login/data/models/user_model.dart';
 
 @immutable
 abstract class AuthEvent extends Equatable {

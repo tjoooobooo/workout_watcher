@@ -9,9 +9,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
 import 'package:workout_watcher/core/di/injection_container.dart' as di;
-import 'package:workout_watcher/core/login/bloc/auth_bloc.dart';
-import 'package:workout_watcher/core/login/bloc/auth_event.dart';
-import 'package:workout_watcher/core/login/presentation/pages/login_page.dart';
+import 'package:workout_watcher/core/features/login/bloc/bloc.dart';
+import 'package:workout_watcher/core/features/login/presentation/pages/login_page.dart';
 import 'package:workout_watcher/core/util/bloc_observer.dart';
 import 'package:workout_watcher/utils/FirebaseHandler.dart';
 
@@ -58,29 +57,6 @@ class TrackMyWorkoutApp extends StatelessWidget {
         dividerColor: Colors.black,
         primaryColorDark: const Color(0xff000428),
         visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-    );
-
-    return MultiProvider(
-      providers: [
-        Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(FirebaseAuth.instance),
-        ),
-        StreamProvider(
-          create: (context) =>
-              context.read<AuthenticationService>().authStateChanges,
-          initialData: null,
-        )
-      ],
-      child: MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.blueGrey,
-          primaryColorLight: Colors.lightBlueAccent,
-          dividerColor: Colors.black,
-//          primaryColorDark: const Color(0xff000428),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: const AuthenticationWrapper(),
       ),
     );
   }

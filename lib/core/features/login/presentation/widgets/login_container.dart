@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workout_watcher/Widgets/CustomFormField.dart';
 import 'package:workout_watcher/Widgets/LoadWidget.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
-import 'package:workout_watcher/core/login/bloc/bloc.dart';
+import 'package:workout_watcher/core/features/login/bloc/bloc.dart';
 
 class LoginContainer extends StatefulWidget {
   const LoginContainer({Key? key}) : super(key: key);

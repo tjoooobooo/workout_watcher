@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:workout_watcher/core/login/bloc/bloc.dart';
-import 'package:workout_watcher/core/login/presentation/widgets/login_container.dart';
-import 'package:workout_watcher/core/login/presentation/widgets/registration_container.dart';
+import 'package:workout_watcher/core/features/login/bloc/bloc.dart';
+import 'package:workout_watcher/core/features/login/presentation/widgets/login_container.dart';
+import 'package:workout_watcher/core/features/login/presentation/widgets/registration_container.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
