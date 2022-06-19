@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:workout_watcher/Models/Measurement.dart';
 import 'package:workout_watcher/Views/MeasureFormView.dart';
 import 'package:workout_watcher/Widgets/LoadWidget.dart';
-import 'package:workout_watcher/navDrawer/DefaultNavDrawer.dart';
+import 'package:workout_watcher/core/features/navigation/default_navigation_drawer.dart';
 import 'package:workout_watcher/utils/FirebaseHandler.dart';
 
 class MeasurementsListView extends StatefulWidget {
@@ -43,7 +43,7 @@ class _MeasurementsListView extends State<MeasurementsListView> {
             )
           ],
         ),
-        drawer: NavDrawer(),
+        drawer: DefaultNavigationDrawer(),
         body: Container(
             color: Colors.black,
             child: FutureBuilder(

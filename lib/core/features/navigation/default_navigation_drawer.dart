@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:workout_watcher/MuscleGroupList.dart';
 import 'package:workout_watcher/Views/ChartView.dart';
-import 'package:workout_watcher/Views/DashboardView.dart';
-import 'package:workout_watcher/Views/MeasureFormView.dart';
-import 'package:workout_watcher/Views/SettingsView.dart';
 import 'package:workout_watcher/ViewsList/MeasurementsListView.dart';
 import 'package:workout_watcher/utils/Utils.dart';
-import '../Views/WorkoutView.dart';
 
-import '../Views/ExercisesList.dart';
-import '../Plan/PlanList.dart';
-import '../WorkoutCalendar.dart';
+class DefaultNavigationDrawer extends StatelessWidget {
+  const DefaultNavigationDrawer({Key? key}) : super(key: key);
 
-class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -21,27 +14,25 @@ class NavDrawer extends StatelessWidget {
           color: Colors.black87,
           child: ListView(
             children: <Widget>[
-              Container(
-                child: DrawerHeader(
-                  child: Center(
-                    child: Text(
-                      'Workout-Tracker',
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                    ),
+              DrawerHeader(
+                child: const Center(
+                  child: Text(
+                    'Workout-Tracker',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: <Color>[Theme.of(context).colorScheme.primary, Colors.black])),
                 ),
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: <Color>[Theme.of(context).colorScheme.primary, Colors.black])),
               ),
               ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.home,
                     color: Colors.white,
                   ),
-                  title: Text(
+                  title: const Text(
                       "Dashboard",
                       style: TextStyle(
                           color: Colors.white
@@ -54,11 +45,11 @@ class NavDrawer extends StatelessWidget {
                     GoRouter.of(context).go("/dashboard");
                   }),
               ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.calendar_today,
                     color: Colors.white,
                   ),
-                  title: Text(
+                  title: const Text(
                       "Kalender",
                       style: TextStyle(
                           color: Colors.white
@@ -66,23 +57,13 @@ class NavDrawer extends StatelessWidget {
                   ),
                   onTap: () {
                     Utils.showToast("Kalender noch nicht verfügbar");
-
-                    // close the drawer
-//                    Navigator.pop(context);
-//
-//                    Navigator.push(
-//                        context,
-//                        MaterialPageRoute(
-//                            builder: (context) => WorkoutCalendar()
-//                        )
-//                    );
                   }),
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.auto_graph,
                   color: Colors.white,
                 ),
-                title: Text(
+                title: const Text(
                   "Übersichten",
                   style: TextStyle(
                       color: Colors.white
@@ -101,13 +82,13 @@ class NavDrawer extends StatelessWidget {
                 },
               ),
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.rule_rounded,
                   color: Colors.white,
                 ),
-                title: Text(
+                title: const Text(
                   "Messungen",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white
                   ),
                 ),
@@ -124,13 +105,13 @@ class NavDrawer extends StatelessWidget {
                 },
               ),
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.task_alt,
                   color: Colors.white,
                 ),
-                title: Text(
+                title: const Text(
                   "Ziele",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white
                   ),
                 ),
@@ -139,11 +120,11 @@ class NavDrawer extends StatelessWidget {
                 },
               ),
               ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.assignment,
                     color: Colors.white,
                   ),
-                  title: Text(
+                  title: const Text(
                       "Plan",
                       style: TextStyle(
                           color: Colors.white
@@ -153,43 +134,32 @@ class NavDrawer extends StatelessWidget {
                     // close the drawer
                     Navigator.pop(context);
 
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PlanList()
-                        )
-                    );
+                    GoRouter.of(context).go("/plan");
                   }
                   ),
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.fitness_center,
                   color: Colors.white,
                 ),
-                title: Text(
+                title: const Text(
                   "Übungen",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white
                   ),
                 ),
                 onTap: () {
                   Navigator.pop(context);
-
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ExercisesView()
-                      )
-                  );
+                  GoRouter.of(context).go("/exercises");
                 },
               ),
 
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.settings,
                   color: Colors.white,
                 ),
-                title: Text(
+                title: const Text(
                   "Einstellungen",
                   style: TextStyle(
                       color: Colors.white

@@ -3,24 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:workout_watcher/Models/Plan.dart';
 import 'package:workout_watcher/Models/PlanDay.dart';
 import 'package:workout_watcher/Plan/CreatePlanWeekList.dart';
+import 'package:workout_watcher/core/features/navigation/default_navigation_drawer.dart';
 import 'package:workout_watcher/utils/FirebaseHandler.dart';
-import '../Views/ExercisesList.dart';
 import 'package:workout_watcher/Plan/CreatePlanDayList.dart';
-import '../core/features/navigation/default_navigation_drawer.dart';
 
-class CreatePlanMainPage extends StatefulWidget {
+class PlanPage extends StatefulWidget {
   Plan? workoutPlan;
 
-  CreatePlanMainPage({this.workoutPlan});
+  PlanPage({this.workoutPlan});
 
   @override
-  _CreatePlanMainState createState() => _CreatePlanMainState(workoutPlan: workoutPlan);
+  _PlanPage createState() => _PlanPage(workoutPlan: workoutPlan);
 }
 
-class _CreatePlanMainState extends State<CreatePlanMainPage> {
+class _PlanPage extends State<PlanPage> {
   Plan? workoutPlan;
 
-  _CreatePlanMainState({this.workoutPlan});
+  _PlanPage({this.workoutPlan});
 
   final TextEditingController nameCtrl = TextEditingController();
   final TextEditingController cycleCtrl = TextEditingController();
@@ -41,10 +40,10 @@ class _CreatePlanMainState extends State<CreatePlanMainPage> {
   @override
   Widget build(BuildContext context) {
     workoutPlan ??= Plan(
-          name: "Plan I",
-          state: "editing",
-          cycles: 5
-      );
+        name: "Plan I",
+        state: "editing",
+        cycles: 5
+    );
 
     nameCtrl.text = workoutPlan!.name;
     cycleCtrl.text = workoutPlan!.cycles.toString();
@@ -63,7 +62,7 @@ class _CreatePlanMainState extends State<CreatePlanMainPage> {
             )
           ],
         ),
-        drawer: DefaultNavigationDrawer(),
+        drawer: const DefaultNavigationDrawer(),
         body: Container(
           color: Colors.black,
           child: Form(
@@ -86,25 +85,25 @@ class _CreatePlanMainState extends State<CreatePlanMainPage> {
                         controller: nameCtrl,
                         autofocus: false,
                         style: const TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white
-                ),
+                            fontSize: 20.0,
+                            color: Colors.white
+                        ),
                         decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 2.0,
-                                )
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 2.0,
-                                )
-                            ),
-                            labelText: "Plan Name",
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 2.0,
+                              )
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 2.0,
+                              )
+                          ),
+                          labelText: "Plan Name",
                           labelStyle: const TextStyle(
                               fontSize: 20.0,
                               color: Colors.white
@@ -149,7 +148,7 @@ class _CreatePlanMainState extends State<CreatePlanMainPage> {
                               ),
                             ),
                             const Text(
-                              "Wochen",
+                                "Wochen",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 20
@@ -175,7 +174,7 @@ class _CreatePlanMainState extends State<CreatePlanMainPage> {
                                       if (updatedPlan is Plan) {
                                         this.workoutPlan = updatedPlan;
                                       }
-                                  });
+                                    });
                                   },
                                   icon: const Icon(
                                     Icons.edit_outlined,
@@ -190,17 +189,17 @@ class _CreatePlanMainState extends State<CreatePlanMainPage> {
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.only(
-                          top: 5.0,
-                          bottom: 5.0
+                            top: 5.0,
+                            bottom: 5.0
                         ),
                         color: Theme.of(context).colorScheme.primary,
                         child: const Text(
                             "Trainingstage wählen",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20
-                          )
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20
+                            )
                         ),
                       ),
                       const Padding(padding: EdgeInsets.all(10)),
@@ -208,28 +207,28 @@ class _CreatePlanMainState extends State<CreatePlanMainPage> {
                         controller: dayCtrl,
                         autofocus: false,
                         style: const TextStyle(
-                          color: Colors.white
+                            color: Colors.white
                         ),
                         decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 2.0,
-                                )
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 2.0,
-                                )
-                            ),
-                            labelText: "Einheit hinzufügen",
-                            labelStyle: const TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white
-                            ),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 2.0,
+                              )
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 2.0,
+                              )
+                          ),
+                          labelText: "Einheit hinzufügen",
+                          labelStyle: const TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.white
+                          ),
                           suffixIcon: IconButton(
                             icon: Icon(
                               Icons.send,
@@ -253,12 +252,12 @@ class _CreatePlanMainState extends State<CreatePlanMainPage> {
                       const Padding(padding: EdgeInsets.all(10)),
                       workoutPlan!.planDays.isEmpty ?
                       Center(
-                        child: Text(
-                          "Noch keine Tage hinzugefügt",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary
+                          child: Text(
+                              "Noch keine Tage hinzugefügt",
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary
+                              )
                           )
-                        )
                       )     :
                       Expanded(
                         child: ReorderableListView(

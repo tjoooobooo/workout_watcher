@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_watcher/Models/Plan.dart';
+import 'package:workout_watcher/Plan/CreatePlanMain.dart';
 import 'package:workout_watcher/Widgets/LoadWidget.dart';
+import 'package:workout_watcher/features/plan/presentation/widgets/plan_list_item.dart';
 import 'package:workout_watcher/core/features/navigation/default_navigation_drawer.dart';
 import 'package:workout_watcher/utils/FirebaseHandler.dart';
 
-import 'CreatePlanMain.dart';
-
-class PlanList extends StatefulWidget {
+class PlanListPage extends StatefulWidget {
   @override
-  State<PlanList> createState() => _PlanListState();
+  State<PlanListPage> createState() => _PlanListPageState();
 }
 
-class _PlanListState extends State<PlanList> {
+class _PlanListPageState extends State<PlanListPage> {
   List<Plan> plans = [];
 
   Future<void> getPlans() async {
@@ -23,10 +23,10 @@ class _PlanListState extends State<PlanList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pläne"),
+        title: const Text("Pläne"),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             tooltip: "Add a new plan",
             onPressed: () {
               Navigator.push(
@@ -40,7 +40,7 @@ class _PlanListState extends State<PlanList> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
             tooltip: "Options",
             onPressed: () {
 
@@ -61,31 +61,11 @@ class _PlanListState extends State<PlanList> {
                         itemBuilder: (context, index) {
                           Plan currentPlan = plans[index];
 
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CreatePlanMainPage(workoutPlan: currentPlan)
-                                  )
-                              );
-                            },
-                            child: Card(
-                                color: Theme
-                                    .of(context)
-                                    .colorScheme
-                                    .primary,
-                                child: ListTile(
-                                    leading: Icon(Icons.assignment),
-                                    title: Text(currentPlan.name),
-                                    trailing: Text(currentPlan.state)
-                                )
-                            ),
-                          );
+                          return PlanListItem(currentPlan: currentPlan);
                         }
                     );
                   } else {
-                    return LoadingWidget();
+                    return const LoadingWidget();
                   }
                 }
             )

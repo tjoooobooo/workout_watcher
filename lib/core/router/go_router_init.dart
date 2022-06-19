@@ -3,6 +3,9 @@ import 'package:workout_watcher/Views/DashboardView.dart';
 import 'package:workout_watcher/Views/SettingsView.dart';
 import 'package:workout_watcher/core/features/login/bloc/bloc.dart';
 import 'package:workout_watcher/core/features/login/presentation/pages/login_page.dart';
+import 'package:workout_watcher/features/exercises/presentation/pages/exercise_page.dart';
+import 'package:workout_watcher/features/exercises/presentation/pages/exercises_list_page.dart';
+import 'package:workout_watcher/features/plan/presentation/pages/plan_list_page.dart';
 
 GoRouter initGoRouter(AuthBloc authBloc) {
   return GoRouter(
@@ -22,6 +25,23 @@ GoRouter initGoRouter(AuthBloc authBloc) {
             path: "/settings",
             pageBuilder: (context, state) =>
                 NoTransitionPage(key: state.pageKey, child: const SettingsView())),
+        GoRoute(
+            path: "/plan",
+            pageBuilder: (context, state) =>
+                NoTransitionPage(key: state.pageKey, child: PlanListPage())),
+        GoRoute(
+            path: "/exercises",
+            pageBuilder: (context, state) =>
+                NoTransitionPage(key: state.pageKey, child: const ExercisesListPage())),
+        GoRoute(
+            path: "/exercise/:exercise_id",
+            pageBuilder: (context, state) {
+              String exerciseId = (state.params["exercise_id"] ?? 0).toString();
+
+              return NoTransitionPage(key: state.pageKey, child: ExercisePage(
+                  exerciseId: exerciseId
+              ));
+            }),
       ],
       redirect: (state) {
         bool isLoggedIn = authBloc.state.status.isLoggedIn;

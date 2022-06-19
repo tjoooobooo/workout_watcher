@@ -14,7 +14,7 @@ class Exercise {
   });
 
   Map<String, dynamic> toJSON() {
-    Map<String, dynamic> map = new Map();
+    Map<String, dynamic> map = {};
 
     map["name"] = name;
     map["detail"] = detail;

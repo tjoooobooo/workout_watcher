@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_watcher/Widgets/LoadWidget.dart';
 import 'WorkoutView.dart';
-import 'package:workout_watcher/navDrawer/DefaultNavDrawer.dart';
+import 'package:workout_watcher/core/features/navigation/default_navigation_drawer.dart';
 
 class DashboardView extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _DashboardView extends State<DashboardView> {
         appBar: AppBar(
           title: Text("Dashboard"),
         ),
-        drawer: NavDrawer(),
+        drawer: DefaultNavigationDrawer(),
         body: Container(
           padding: EdgeInsets.all(10.0),
           color: Colors.black,

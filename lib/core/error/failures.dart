@@ -11,3 +11,5 @@ abstract class Failure extends Equatable {
 class NoFailure extends Failure {}
 
 class LoginFailure extends Failure {}
+
+class NoExerciseFoundFailure extends Failure {}

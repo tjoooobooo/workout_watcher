@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
 import 'package:workout_watcher/core/features/login/bloc/bloc.dart';
-import 'package:workout_watcher/navDrawer/DefaultNavDrawer.dart';
+import 'package:workout_watcher/core/features/navigation/default_navigation_drawer.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class _SettingsViewState extends State<SettingsView> {
         appBar: AppBar(
           title: Text("Einstellungen"),
         ),
-        drawer: NavDrawer(),
+        drawer: DefaultNavigationDrawer(),
         body: Container(
             padding: EdgeInsets.all(10.0),
             color: Colors.black,

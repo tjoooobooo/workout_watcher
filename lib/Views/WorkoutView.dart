@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:workout_watcher/Plan/CreatePlanMain.dart';
 import 'package:workout_watcher/WorkoutCalendar.dart';
-import '../navDrawer/DefaultNavDrawer.dart';
+import '../core/features/navigation/default_navigation_drawer.dart';
 
 import 'ExercisesList.dart';
 
@@ -24,7 +24,7 @@ class _WorkoutViewState extends State<WorkoutView> {
         appBar: AppBar(
           title: const Text("Push"),
         ),
-        drawer: NavDrawer(),
+        drawer: DefaultNavigationDrawer(),
         body: Center(
             child: SingleChildScrollView(
               child: Column(
