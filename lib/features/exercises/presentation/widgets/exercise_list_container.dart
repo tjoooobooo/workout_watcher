@@ -55,6 +55,9 @@ class ExerciseListContainer extends StatelessWidget {
                     .of(context)
                     .colorScheme
                     .primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius. circular(15),
+                ),
                 child: ExpansionTile(
                   title: Text(
                     exerciseInGroups.keys.elementAt(index),

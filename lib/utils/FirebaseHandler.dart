@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:workout_watcher/Models/Exercise.dart';
-import 'package:workout_watcher/Models/Measurement.dart';
+import 'package:workout_watcher/features/measurements/data/models/measurement_model.dart';
 import 'package:workout_watcher/Models/Plan.dart';
 
 class FirebaseHandler {
@@ -133,7 +133,7 @@ class FirebaseHandler {
   }
 
 
-  static Future<void> addMeasurement(Measurement measurement) async {
+  static Future<void> addMeasurement(MeasurementModel measurement) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -145,7 +145,7 @@ class FirebaseHandler {
     ;
   }
 
-  static Future<List<Measurement>> getMeasurements() async {
+  static Future<List<MeasurementModel>> getMeasurements() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -156,17 +156,17 @@ class FirebaseHandler {
         .get()
     ;
 
-    List<Measurement> measurements = [];
+    List<MeasurementModel> measurements = [];
 
     rawMeasurements.docs.forEach((element) {
-      measurements.add(Measurement.fromMap(element.data(), element.id));
+      measurements.add(MeasurementModel.fromJSON(element.data(), element.id));
     });
 
     measurements.sort((a, b) => b.date.compareTo(a.date));
     return measurements;
   }
 
-  static Future<void> deleteMeasurement(Measurement measurement) async {
+  static Future<void> deleteMeasurement(MeasurementModel measurement) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     FirebaseAuth auth = FirebaseAuth.instance;
 

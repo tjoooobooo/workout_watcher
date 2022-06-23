@@ -6,35 +6,41 @@ import 'package:workout_watcher/core/router/go_router_init.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_bloc.dart';
 import 'package:workout_watcher/features/exercises/data/repositories/exercise_repository_firebase.dart';
 import 'package:workout_watcher/features/exercises/domain/repositorys/exercise_repository.dart';
+import 'package:workout_watcher/features/measurements/bloc/measurements_bloc.dart';
+import 'package:workout_watcher/features/measurements/data/repositories/measurement_repository_firebase.dart';
+import 'package:workout_watcher/features/measurements/domain/repositories/measurment_repository.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
   // Blocs
   sl.registerLazySingleton<AuthBloc>(
-        () => AuthBloc(sl()),
+    () => AuthBloc(sl()),
   );
 
   sl.registerLazySingleton<ExercisesBloc>(
-        () => ExercisesBloc(sl()),
+    () => ExercisesBloc(sl()),
+  );
+
+  sl.registerLazySingleton<MeasurementsBloc>(
+    () => MeasurementsBloc(sl()),
   );
 
   // Use cases
 
-
   // user
-
 
   // Repository
   sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryFirebase());
-  sl.registerLazySingleton<ExerciseRepository>(() => ExerciseRepositoryFirebase());
+  sl.registerLazySingleton<ExerciseRepository>(
+      () => ExerciseRepositoryFirebase());
+  sl.registerLazySingleton<MeasurementRepository>(
+      () => MeasurementRepositoryFirebase());
 
   // Data sources
-
 
   // Core
 
   // External
   sl.registerLazySingleton(() => initGoRouter(sl()));
-
 }

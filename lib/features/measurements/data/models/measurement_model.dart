@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 
-class Measurement {
+class MeasurementModel extends Equatable {
   DateTime date;
   double weight;
   double kfa;
@@ -18,7 +19,7 @@ class Measurement {
 
   String? id;
 
-  Measurement({
+  MeasurementModel({
     required this.date,
     required this.weight,
     required this.kfa,
@@ -40,46 +41,57 @@ class Measurement {
       "date": date,
       "weight": weight,
       "kfa": kfa,
-
       "shoulders": shoulders,
       "chest": chest,
       "core": core,
       "butt": butt,
-
       "rQuads": rQuads,
       "lQuads": lQuads,
-
       "rArms": rArms,
       "lArms": lArms,
-
       "rCalves": rCalves,
       "lCalves": lCalves,
     };
   }
 
-  factory Measurement.fromMap(Map<String, dynamic> map, String? id) {
+  factory MeasurementModel.fromJSON(Map<String, dynamic> map, String? id) {
     Timestamp timestamp = map["date"];
 
-    Measurement measurement = new Measurement(
+    MeasurementModel measurement = MeasurementModel(
       date: timestamp.toDate(),
       weight: map["weight"],
-      kfa: map["kfa"] ?? null,
-      shoulders: map["shoulders"] ?? null,
-      chest: map["chest"] ?? null,
-      core: map["core"] ?? null,
+      kfa: map["kfa"],
+      shoulders: map["shoulders"],
+      chest: map["chest"],
+      core: map["core"],
       butt: map["butt"],
-
-      rQuads: map["rQuads"] ?? null,
-      lQuads: map["lQuads"] ?? null,
-
-      rArms: map["rArms"] ?? null,
-      lArms: map["lArms"] ?? null,
-
-      rCalves: map["rCalves"] ?? null,
-      lCalves: map["lCalves"] ?? null,
+      rQuads: map["rQuads"],
+      lQuads: map["lQuads"],
+      rArms: map["rArms"],
+      lArms: map["lArms"],
+      rCalves: map["rCalves"],
+      lCalves: map["lCalves"],
     );
 
     measurement.id = id ?? map["id"];
     return measurement;
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        date,
+        weight,
+        kfa,
+        shoulders,
+        chest,
+        core,
+        butt,
+        rQuads,
+        lQuads,
+        rArms,
+        lArms,
+        rCalves,
+        lCalves
+      ];
 }

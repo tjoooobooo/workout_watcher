@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ExercisePropertyDropdownRow extends StatefulWidget {
+class IconLabelDropdownRow extends StatefulWidget {
   final IconData iconData;
   final String label;
   final String? initialType;
@@ -8,7 +8,7 @@ class ExercisePropertyDropdownRow extends StatefulWidget {
   final Map<String, String> items;
   final Function changeValueFunc;
 
-  const ExercisePropertyDropdownRow(
+  const IconLabelDropdownRow(
       {Key? key,
       required this.iconData,
       required this.label,
@@ -18,12 +18,12 @@ class ExercisePropertyDropdownRow extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<ExercisePropertyDropdownRow> createState() =>
-      _ExercisePropertyDropdownRowState();
+  State<IconLabelDropdownRow> createState() =>
+      _IconLabelDropdownRowState();
 }
 
-class _ExercisePropertyDropdownRowState
-    extends State<ExercisePropertyDropdownRow> {
+class _IconLabelDropdownRowState
+    extends State<IconLabelDropdownRow> {
   String? chosenExerciseType;
 
   @override

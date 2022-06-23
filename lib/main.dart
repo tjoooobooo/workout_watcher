@@ -14,6 +14,8 @@ import 'package:workout_watcher/core/features/login/presentation/pages/login_pag
 import 'package:workout_watcher/core/util/bloc_observer.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_bloc.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_event.dart';
+import 'package:workout_watcher/features/measurements/bloc/measurements_bloc.dart';
+import 'package:workout_watcher/features/measurements/bloc/measurements_event.dart';
 import 'package:workout_watcher/utils/FirebaseHandler.dart';
 
 import 'Views/DashboardView.dart';
@@ -27,16 +29,24 @@ Future<void> main() async {
     storageDirectory: await getTemporaryDirectory(),
   );
 
-  HydratedBlocOverrides.runZoned(() => {
-        runApp(MultiBlocProvider(providers: [
-          BlocProvider<AuthBloc>(create: (context) {
-            return sl<AuthBloc>()..add(AppStartedEvent());
-          }),
-          BlocProvider<ExercisesBloc>(create: (context) {
-            return sl<ExercisesBloc>()..add(GetAllExercisesEvent());
-          })
-        ], child: const TrackMyWorkoutApp()))
-      }, blocObserver: kReleaseMode ? null : SimpleBlocObserver(), storage: storage);
+  HydratedBlocOverrides.runZoned(
+      () => {
+            runApp(MultiBlocProvider(providers: [
+              BlocProvider<AuthBloc>(create: (context) {
+                return sl<AuthBloc>()..add(AppStartedEvent());
+              }),
+              BlocProvider<ExercisesBloc>(create: (context) {
+                return sl<ExercisesBloc>()
+                  ..add(GetAllExercisesEvent(refreshCache: true));
+              }),
+              BlocProvider<MeasurementsBloc>(create: (context) {
+                return sl<MeasurementsBloc>()
+                  ..add(GetAllMeasurementsEvent(refreshCache: true));
+              })
+            ], child: const TrackMyWorkoutApp()))
+          },
+      blocObserver: kReleaseMode ? null : SimpleBlocObserver(),
+      storage: storage);
 
   await FirebaseHandler.getAllExercises();
 }

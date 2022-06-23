@@ -88,7 +88,7 @@ class DefaultNavigationDrawer extends StatelessWidget {
                 ),
                 title: const Text(
                   "Messungen",
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.white
                   ),
                 ),
@@ -96,12 +96,7 @@ class DefaultNavigationDrawer extends StatelessWidget {
                   // close the drawer
                   Navigator.pop(context);
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MeasurementsListView()
-                      )
-                  );
+                  GoRouter.of(context).go("/measurements");
                 },
               ),
               ListTile(

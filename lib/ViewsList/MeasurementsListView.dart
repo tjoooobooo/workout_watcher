@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_watcher/Models/Measurement.dart';
+import 'package:workout_watcher/features/measurements/data/models/measurement_model.dart';
 import 'package:workout_watcher/Views/MeasureFormView.dart';
 import 'package:workout_watcher/Widgets/LoadWidget.dart';
 import 'package:workout_watcher/core/features/navigation/default_navigation_drawer.dart';
@@ -13,7 +13,7 @@ class MeasurementsListView extends StatefulWidget {
 }
 
 class _MeasurementsListView extends State<MeasurementsListView> {
-  List<Measurement> measurements = [];
+  List<MeasurementModel> measurements = [];
 
   // initial get all measurements
   Future<void> getMeasurements() async {
@@ -54,7 +54,7 @@ class _MeasurementsListView extends State<MeasurementsListView> {
                       child: ListView.builder(
                           itemCount: measurements.length,
                           itemBuilder: (context, index) {
-                            Measurement measurement = measurements.elementAt(index);
+                            MeasurementModel measurement = measurements.elementAt(index);
 
                             return Dismissible(
                               key: Key(measurement.date.toString()),

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_watcher/Models/Measurement.dart';
+import 'package:workout_watcher/features/measurements/data/models/measurement_model.dart';
 import 'package:workout_watcher/Widgets/LoadWidget.dart';
 import 'package:workout_watcher/utils/FirebaseHandler.dart';
 
@@ -30,7 +30,7 @@ class _ChartView extends State<ChartView> {
   List<FlSpot> spots = [];
 
   Future<void> getChartData() async {
-    List<Measurement> measurements = await FirebaseHandler.getMeasurements();
+    List<MeasurementModel> measurements = await FirebaseHandler.getMeasurements();
     measurements = measurements.reversed.toList();
 
     double counter = 0;

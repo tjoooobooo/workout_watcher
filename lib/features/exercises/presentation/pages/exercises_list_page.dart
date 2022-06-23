@@ -59,6 +59,7 @@ class _ExercisesListPage extends State<ExercisesListPage> {
           child: Container(
             color: Theme.of(context).primaryColorDark,
             width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
                 ExerciseListSearchContainer(searchCtrl: searchCtrl),

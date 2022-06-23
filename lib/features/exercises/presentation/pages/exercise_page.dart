@@ -11,9 +11,9 @@ import 'package:workout_watcher/features/exercises/bloc/exercises_bloc.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_event.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_state.dart';
 import 'package:workout_watcher/features/exercises/data/models/exercise_model.dart';
-import 'package:workout_watcher/features/exercises/presentation/widgets/exercise_property_text_row.dart';
+import 'package:workout_watcher/core/presentation/widgets/icon_label_text_row.dart';
 
-import '../widgets/exercise_property_dropdown_row.dart';
+import '../../../../core/presentation/widgets/icon_label_dropdown_row.dart';
 
 class ExercisePage extends StatefulWidget {
   final String exerciseId;
@@ -260,12 +260,12 @@ class _ExercisePageState extends State<ExercisePage> {
                                   ],
                                 ),
                               ),
-                              ExercisePropertyTextRow(
+                              IconLabelTextRow(
                                 controller: nameCtrl,
                                 iconData: Icons.abc_rounded,
                                 label: "Name",
                               ),
-                              ExercisePropertyTextRow(
+                              IconLabelTextRow(
                                   iconData: Icons.info_outline_rounded,
                                   label: "Details",
                                   controller: detailCtrl,
@@ -284,7 +284,7 @@ class _ExercisePageState extends State<ExercisePage> {
                           padding: const EdgeInsets.all(5.0),
                           child: Column(
                             children: [
-                              ExercisePropertyDropdownRow(
+                              IconLabelDropdownRow(
                                   label: "Muskelgruppe",
                                   iconData: Icons.fitness_center,
                                   items: muscleGroups,
@@ -292,7 +292,7 @@ class _ExercisePageState extends State<ExercisePage> {
                                   changeValueFunc: (chosen) {
                                     chosenMuscleGroup = chosen;
                                   }),
-                              ExercisePropertyDropdownRow(
+                              IconLabelDropdownRow(
                                   label: "Equipment",
                                   iconData: Icons.fitness_center,
                                   items: equipmentTypes,
@@ -300,7 +300,7 @@ class _ExercisePageState extends State<ExercisePage> {
                                   changeValueFunc: (chosen) {
                                     chosenEquipment = chosen;
                                   }),
-                              ExercisePropertyDropdownRow(
+                              IconLabelDropdownRow(
                                   label: "Art",
                                   iconData: Icons.type_specimen,
                                   items: exerciseTypes,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_watcher/Models/Measurement.dart';
+import 'package:workout_watcher/features/measurements/data/models/measurement_model.dart';
 import 'package:workout_watcher/utils/FirebaseHandler.dart';
 
 class MeasureFormView extends StatefulWidget {
-  Measurement? measurement;
+  MeasurementModel? measurement;
 
   MeasureFormView({this.measurement});
 
@@ -14,7 +14,7 @@ class MeasureFormView extends StatefulWidget {
 
 
 class _MeasureFormView extends State<MeasureFormView> {
-  Measurement? measurement;
+  MeasurementModel? measurement;
 
   _MeasureFormView({this.measurement});
 
@@ -86,7 +86,7 @@ class _MeasureFormView extends State<MeasureFormView> {
                 onPressed: () async {
                   if (formGlobalKey.currentState!.validate()) {
                     await FirebaseHandler.addMeasurement(
-                        Measurement(
+                        MeasurementModel(
                             date: measureDate,
                             weight: getValue(weightCtrl)!,
                             kfa: getValue(kfaCtrl)!,
