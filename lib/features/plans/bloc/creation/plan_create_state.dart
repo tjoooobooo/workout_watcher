@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_model.dart';
 
-enum PlanCreateStateStatus { initial, error, updated, switchedDay, switchDay }
+enum PlanCreateStateStatus { initial, error, updated, switchedDay, switchDay, changedDayName, updating }
 
 extension PlanCreateStateStatusX on PlanCreateStateStatus {
   bool get isInitial => this == PlanCreateStateStatus.initial;
@@ -11,7 +11,11 @@ extension PlanCreateStateStatusX on PlanCreateStateStatus {
 
   bool get isSwitchDay => this == PlanCreateStateStatus.switchDay;
 
-  bool get isDaySwitched => this == PlanCreateStateStatus.switchedDay;
+  bool get hasSwitchedDay => this == PlanCreateStateStatus.switchedDay;
+
+  bool get hasChangedDayName => this == PlanCreateStateStatus.changedDayName;
+
+  bool get isUpdating => this == PlanCreateStateStatus.updating;
 }
 
 @immutable

@@ -17,11 +17,7 @@ class DayRowItem extends StatelessWidget {
     return BlocBuilder<PlanCreateBloc, PlanCreateState>(
       bloc: planCreateBloc,
       builder: (context, state) {
-        bool isSelected = false;
-
-        if (state.status.isDaySwitched) {
-          isSelected = dayNumber == state.dayIndex;
-        }
+        bool isSelected = dayNumber == state.dayIndex;
 
         return GestureDetector(
           onTap: () {

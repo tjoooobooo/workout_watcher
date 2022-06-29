@@ -1,5 +1,6 @@
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
+import 'package:workout_watcher/Models/PlanDay.dart';
 import 'package:workout_watcher/features/plans/bloc/plan_state.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_day_model.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_week_model.dart';
@@ -42,6 +43,12 @@ class PlanModel extends Equatable {
         state: state ?? this.state,
         planDays: planDays ?? this.planDays,
         planWeeks: planWeeks ?? this.planWeeks);
+  }
+
+  PlanModel replaceDay(int index, PlanDayModel planDay) {
+    List<PlanDayModel> currentDays = planDays;
+    currentDays[index] = planDay;
+    return copyWith(planDays: currentDays);
   }
 
   void addPlanDay(PlanDayModel planDay) {

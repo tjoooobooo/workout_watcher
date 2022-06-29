@@ -1,4 +1,6 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:workout_watcher/features/plans/data/models/plan_day_model.dart';
+import 'package:workout_watcher/features/plans/data/models/plan_model.dart';
 import 'package:workout_watcher/features/plans/domain/repositories/plan_repository.dart';
 
 import 'plan_create_event.dart';
@@ -13,7 +15,9 @@ class PlanCreateBloc extends Bloc<PlanCreateEvent, PlanCreateState> {
     on<UpdatePlanCreateEvent>((event, emit) {
       if (state.plan != null) {
         emit(state.copyWith(
-            status: PlanCreateStateStatus.updated, plan: state.plan!.copyWith(name: event.name)));
+            status: PlanCreateStateStatus.updated,
+            plan:
+                state.plan!.copyWith(name: event.name, units: event.units, cycles: event.cycles)));
       }
     });
 
@@ -25,6 +29,16 @@ class PlanCreateBloc extends Bloc<PlanCreateEvent, PlanCreateState> {
       emit(state.copyWith(status: PlanCreateStateStatus.switchedDay));
     });
 
-    on<ChangeDayNameEvent>((event, emit) {});
+    on<ChangeDayNameEvent>((event, emit) {
+      emit(state.copyWith(status: PlanCreateStateStatus.updating));
+
+      PlanModel plan = state.plan!;
+      PlanDayModel planDay = plan.planDays.elementAt(event.index);
+      if (event.name != planDay.name) {
+        PlanDayModel newPlanDay = planDay.copyWith(name: event.name);
+        plan.replaceDay(event.index, newPlanDay);
+        emit(state.copyWith(status: PlanCreateStateStatus.changedDayName, plan: plan));
+      }
+    });
   }
 }

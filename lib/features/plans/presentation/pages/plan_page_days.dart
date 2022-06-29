@@ -12,6 +12,7 @@ import 'package:workout_watcher/features/plans/bloc/plan_bloc.dart';
 import 'package:workout_watcher/features/plans/bloc/plan_event.dart';
 import 'package:workout_watcher/features/plans/bloc/plan_state.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_day_model.dart';
+import 'package:workout_watcher/features/plans/presentation/widgets/plan_day_container.dart';
 import 'package:workout_watcher/features/plans/presentation/widgets/plan_day_exercise_item.dart';
 import 'package:workout_watcher/features/plans/presentation/widgets/plan_day_info_container.dart';
 import 'package:workout_watcher/features/plans/presentation/widgets/plan_day_page_indicator.dart';
@@ -63,11 +64,19 @@ class _PlanPageDaysState extends State<PlanPageDays> {
                   setCurrentDay(planDays.elementAt(0));
                   planCreateBloc.add(SwitchDayEvent(selectedDay: 0));
                 } else if (state.status.isSwitchDay) {
+                  FocusScope.of(context).unfocus();
                   await pageController.animateToPage(state.dayIndex!,
                       duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
                   planCreateBloc.add(SwitchedDayEvent());
 
                 }
+              },
+              buildWhen: (previous, current) {
+                if (current.status.isInitial || current.status.hasChangedDayName) {
+                  return true;
+                }
+
+                return false;
               },
               builder: (context, state) {
                 List<PlanDayModel> planDays = state.plan!.planDays;
@@ -79,15 +88,20 @@ class _PlanPageDaysState extends State<PlanPageDays> {
                 for (int i = 0; i < planDays.length; i++) {
                   PlanDayModel planDay = planDays.elementAt(i);
 
-                  planDayInfoContainers.add(PlanDayInfoContainer(planDay: planDay, dayNumber: i));
-
                   dayRowItems.add(DayRowItem(name: planDay.name, dayNumber: i));
+                  planDayInfoContainers.add(PlanDayContainer(planDay: planDay, dayNumber: i));
                 }
 
                 return Column(children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: Row(children: dayRowItems),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: dayRowItems
+                      ),
+                    ),
                   ),
                   const Divider(color: Colors.white),
                   Expanded(
@@ -105,59 +119,6 @@ class _PlanPageDaysState extends State<PlanPageDays> {
                 ]);
               },
             )));
-  }
-}
-
-class PlanDayInfoContainer extends StatelessWidget {
-  PlanDayInfoContainer({Key? key, required this.planDay, required this.dayNumber})
-      : super(key: key);
-
-  final PlanDayModel planDay;
-  final int dayNumber;
-  final TextEditingController dayNameCtrl = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        PlanDaySummaryContainer(planDay: planDay, index: dayNumber + 1),
-        Container(
-            width: MediaQuery.of(context).size.width * 0.925,
-            padding: const EdgeInsets.all(4.0),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: IconLabelTextRow(
-              iconData: Icons.abc_rounded,
-              label: "Name",
-              controller: dayNameCtrl,
-            )),
-        const SectionHeaderContainer(header: "Übungen"),
-        Expanded(
-          child: Container(
-              width: MediaQuery.of(context).size.width * 0.925,
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: const [
-                    PlanDayExerciseItem(),
-                    PlanDayExerciseItem(),
-                    PlanDayExerciseItem(),
-                    PlanDayExerciseItem(),
-                    PlanDayExerciseItem(),
-                    PlanDayExerciseItem(),
-                    PlanDayExerciseItem()
-                  ],
-                ),
-              )),
-        )
-      ],
-    );
   }
 }
 

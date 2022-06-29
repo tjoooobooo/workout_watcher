@@ -53,6 +53,7 @@ class _PlanPage extends State<PlanPage> {
                 chosenCyclesCount = state.plan!.cycles;
 
                 planCreateBloc.add(StartedEditingEvent(plan: state.plan!));
+                setState(() {});
               }
             },
             child: Container(
@@ -160,11 +161,11 @@ class _PlanPage extends State<PlanPage> {
                           var state = sl<PlanBloc>().state.status;
 
                           if (statePlan != null) {
-                            PlanModel plan = PlanModel(
-                                id: statePlan.id,
-                                name: nameCtrl.text,
-                                cycles: chosenCyclesCount,
-                                units: chosenDaysCount);
+                            PlanModel plan = statePlan.copyWith(
+                              name: nameCtrl.text,
+                              cycles: chosenCyclesCount,
+                              units: chosenDaysCount
+                            );
 
                             sl<PlanBloc>().add(UpdatePlanEvent(plan));
                           } else {

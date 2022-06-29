@@ -58,11 +58,11 @@ class _PlanListPageState extends State<PlanListPage> {
         child: Center(
             child: BlocBuilder<PlanBloc, PlanState>(
                 builder: (context, state) {
-                  if (state.status == PlanStateStatus.loaded) {
+                  if (state.plans != null) {
                     return ListView.builder(
-                        itemCount: state.plans.length,
+                        itemCount: state.plans!.length,
                         itemBuilder: (context, index) {
-                          PlanModel plan = state.plans.elementAt(index);
+                          PlanModel plan = state.plans!.elementAt(index);
 
                           return PlanListItem(plan: plan);
                         }

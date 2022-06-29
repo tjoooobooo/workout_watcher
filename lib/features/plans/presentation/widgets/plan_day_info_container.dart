@@ -28,7 +28,7 @@ class PlanDaySummaryContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                "Tag " + index.toString(),
+                "Tag " + (index + 1).toString(),
                 style: const TextStyle(fontSize: 16),
               ),
               Text(

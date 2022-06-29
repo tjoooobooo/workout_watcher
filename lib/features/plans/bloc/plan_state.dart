@@ -25,21 +25,15 @@ extension PlanStateStatusX on PlanStateStatus {
 @immutable
 class PlanState extends Equatable {
   final PlanStateStatus status;
-  final List<PlanModel> plans;
+  final List<PlanModel>? plans;
   final PlanModel? plan;
 
-  const PlanState({this.status = PlanStateStatus.loading, this.plans = const [], this.plan});
+  const PlanState({this.status = PlanStateStatus.loading, this.plans, this.plan});
 
   @override
-  List<Object> get props {
-    if (plan == null) {
-      return [status, plans];
-    } else {
-      return [status, plans, plan!];
-    }
-  }
+  List<Object?> get props => [status, plans, plan];
 
   PlanState copyWith({PlanStateStatus? status, List<PlanModel>? plans, PlanModel? plan}) {
-    return PlanState(status: status ?? this.status, plans: plans ?? [], plan: plan);
+    return PlanState(status: status ?? this.status, plans: plans ?? this.plans, plan: plan ?? this.plan);
   }
 }
