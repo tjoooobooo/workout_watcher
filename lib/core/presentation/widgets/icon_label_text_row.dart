@@ -7,6 +7,7 @@ class IconLabelTextRow extends StatelessWidget {
   final bool validateForValue;
   final TextInputType keyboardType;
   final String? Function(String? value)? customValidator;
+  final void Function(String? value)? onChanged;
   final String? suffixText;
 
   const IconLabelTextRow(
@@ -17,6 +18,7 @@ class IconLabelTextRow extends StatelessWidget {
       this.validateForValue = true,
       this.keyboardType = TextInputType.text,
       this.customValidator,
+      this.onChanged,
       this.suffixText})
       : super(key: key);
 
@@ -32,26 +34,19 @@ class IconLabelTextRow extends StatelessWidget {
 
   void buildValueWithSuffix(String value) {
     if (suffixText != null) {
-      String valueWithoutSuffix = value.trim().replaceAll(
-          suffixText!, "");
-      if (value.endsWith(suffixText!) == false &&
-          valueWithoutSuffix.isNotEmpty
-      ) {
+      String valueWithoutSuffix = value.trim().replaceAll(suffixText!, "");
+      if (value.endsWith(suffixText!) == false && valueWithoutSuffix.isNotEmpty) {
         int offset = controller.text.length;
         controller.text += " $suffixText";
-        controller.selection =
-            TextSelection.collapsed(offset: offset);
+        controller.selection = TextSelection.collapsed(offset: offset);
       } else if (valueWithoutSuffix.isEmpty) {
         controller.text = "";
-        controller.selection =
-        const TextSelection.collapsed(offset: 0);
+        controller.selection = const TextSelection.collapsed(offset: 0);
       }
     }
   }
 
-  void initState() {
-
-  }
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +55,7 @@ class IconLabelTextRow extends StatelessWidget {
       child: Row(
         children: [
           CircleAvatar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
+            backgroundColor: Theme.of(context).primaryColorDark,
             radius: 20,
             child: Icon(
               iconData,
@@ -81,7 +76,14 @@ class IconLabelTextRow extends StatelessWidget {
                 controller: controller,
                 keyboardType: keyboardType,
                 validator: (value) => deleteSuffix(value),
-                onChanged: (value) => buildValueWithSuffix(value),
+                onChanged: (value) {
+                  buildValueWithSuffix(value);
+
+                  // execute onChanged if given
+                  if (onChanged != null) {
+                    onChanged!(value);
+                  }
+                },
                 decoration: InputDecoration(
                     focusedBorder: InputBorder.none,
                     border: InputBorder.none,
@@ -91,8 +93,7 @@ class IconLabelTextRow extends StatelessWidget {
                       ),
                     ),
                     hintText: "Bitte eingeben",
-                    hintStyle: TextStyle(
-                        color: Theme.of(context).colorScheme.primary)),
+                    hintStyle: TextStyle(color: Theme.of(context).colorScheme.primary)),
                 style: const TextStyle(color: Colors.white),
               ))
         ],

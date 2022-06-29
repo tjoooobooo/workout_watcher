@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class IconLabelDropdownRow extends StatefulWidget {
   final IconData iconData;
   final String label;
-  final String? initialType;
+  final dynamic initialType;
 
-  final Map<String, String> items;
+  final Map<dynamic, String> items;
   final Function changeValueFunc;
 
   const IconLabelDropdownRow(
@@ -24,15 +24,15 @@ class IconLabelDropdownRow extends StatefulWidget {
 
 class _IconLabelDropdownRowState
     extends State<IconLabelDropdownRow> {
-  String? chosenExerciseType;
+  dynamic chosenItemValue;
 
   @override
   Widget build(BuildContext context) {
-    List<DropdownMenuItem<String>> dropdownItems = [];
-    chosenExerciseType = widget.initialType;
+    List<DropdownMenuItem<dynamic>> dropdownItems = [];
+    chosenItemValue = widget.initialType;
 
     widget.items.forEach((value, label) {
-      dropdownItems.add(DropdownMenuItem<String>(
+      dropdownItems.add(DropdownMenuItem<dynamic>(
         value: value,
         child: Text(label),
       ));
@@ -43,7 +43,7 @@ class _IconLabelDropdownRowState
       child: Row(
         children: [
           CircleAvatar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
+            backgroundColor: Theme.of(context).primaryColorDark,
             radius: 20,
             child: Icon(
               widget.iconData,
@@ -60,18 +60,18 @@ class _IconLabelDropdownRowState
           SizedBox(width: MediaQuery.of(context).size.width * 0.05),
           SizedBox(
               width: MediaQuery.of(context).size.width * 0.3,
-              child: DropdownButtonFormField<String>(
+              child: DropdownButtonFormField<dynamic>(
                 items: dropdownItems,
-                value: chosenExerciseType,
+                value: chosenItemValue,
                 onChanged: (newValue) {
                   setState(() {
-                    chosenExerciseType = newValue!;
+                    chosenItemValue = newValue!;
                     widget.changeValueFunc(newValue);
                   });
                 },
                 dropdownColor: Theme.of(context).colorScheme.primary,
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (value == null || value == "") {
                     return "";
                   } else {
                     return null;

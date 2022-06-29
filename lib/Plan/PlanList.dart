@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_watcher/Models/Plan.dart';
 import 'package:workout_watcher/Widgets/LoadWidget.dart';
 import 'package:workout_watcher/core/features/navigation/default_navigation_drawer.dart';
 import 'package:workout_watcher/utils/FirebaseHandler.dart';
 
+import '../Models/Plan.dart';
 import 'CreatePlanMain.dart';
 
 class PlanList extends StatefulWidget {
@@ -27,7 +27,7 @@ class _PlanListState extends State<PlanList> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
-            tooltip: "Add a new plan",
+            tooltip: "Add a new plans",
             onPressed: () {
               Navigator.push(
                   context,

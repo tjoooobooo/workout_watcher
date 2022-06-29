@@ -22,6 +22,9 @@ class ExerciseListItem extends StatefulWidget {
 class _ExerciseListItemState extends State<ExerciseListItem> {
   @override
   Widget build(BuildContext context) {
+    String title = widget.exercise.name +
+        (widget.exercise.detail.isEmpty ? "" : ", " + widget.exercise.detail);
+
     return GestureDetector(
         onTap: () {
           if (widget.isSelectionMode) {
@@ -51,10 +54,15 @@ class _ExerciseListItemState extends State<ExerciseListItem> {
                     )
                   : const CircleAvatar(
                       radius: 20.0, child: Icon(Icons.fitness_center)),
-              title: Text(widget.exercise.name),
-              subtitle: Text(widget.exercise.detail),
-              trailing:
-                  Text(widget.exercise.type == "compound" ? "com" : "iso"),
+              title: Text(
+                title,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(widget.exercise.getEquipmentLabel()),
+              trailing: Text(
+                widget.exercise.type == "compound" ? "com" : "iso",
+                style: TextStyle(color: Colors.black, fontSize: 14),
+              ),
             )));
   }
 }

@@ -44,7 +44,7 @@ class _IconLabelDateRowState extends State<IconLabelDateRow> {
       child: Row(
         children: [
           CircleAvatar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
+            backgroundColor: Theme.of(context).primaryColorDark,
             radius: 20,
             child: Icon(
               widget.iconData,

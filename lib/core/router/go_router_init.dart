@@ -7,7 +7,9 @@ import 'package:workout_watcher/features/exercises/presentation/pages/exercise_p
 import 'package:workout_watcher/features/exercises/presentation/pages/exercises_list_page.dart';
 import 'package:workout_watcher/features/measurements/presentation/pages/measurement_list.dart';
 import 'package:workout_watcher/features/measurements/presentation/pages/measurement_page.dart';
-import 'package:workout_watcher/features/plan/presentation/pages/plan_list_page.dart';
+import 'package:workout_watcher/features/plans/presentation/pages/plan_page.dart';
+import 'package:workout_watcher/features/plans/presentation/pages/plan_list_page.dart';
+import 'package:workout_watcher/features/plans/presentation/pages/plan_page_days.dart';
 
 GoRouter initGoRouter(AuthBloc authBloc) {
   return GoRouter(
@@ -30,9 +32,24 @@ GoRouter initGoRouter(AuthBloc authBloc) {
                 NoTransitionPage(
                     key: state.pageKey, child: const SettingsView())),
         GoRoute(
-            path: "/plan",
-            pageBuilder: (context, state) =>
-                NoTransitionPage(key: state.pageKey, child: PlanListPage())),
+            path: "/plans",
+            pageBuilder: (context, state) {
+                return NoTransitionPage(key: state.pageKey, child: const PlanListPage());
+            }),
+        GoRoute(
+            path: "/plan/:plan_id",
+            pageBuilder: (context, state) {
+              String planId = (state.params["plan_id"] ?? 0).toString();
+
+              return NoTransitionPage(key: state.pageKey, child: PlanPage(planId: planId));
+            }),
+        GoRoute(
+            path: "/plan-day/:plan_id",
+            pageBuilder: (context, state) {
+              String planId = (state.params["plan_id"] ?? 0).toString();
+
+              return NoTransitionPage(key: state.pageKey, child: PlanPageDays(planId: planId));
+            }),
         GoRoute(
             path: "/exercises",
             pageBuilder: (context, state) =>
@@ -50,13 +67,16 @@ GoRouter initGoRouter(AuthBloc authBloc) {
         GoRoute(
             path: "/measurements",
             pageBuilder: (context, state) =>
-                NoTransitionPage(key: state.pageKey, child: const MeasurementList())),
+                NoTransitionPage(
+                    key: state.pageKey, child: const MeasurementList())),
         GoRoute(
             path: "/measurement/:measurement_id",
             pageBuilder: (context, state) {
-              String measurmentId = (state.params["measurement_id"] ?? 0).toString();
+              String measurmentId = (state.params["measurement_id"] ?? 0)
+                  .toString();
               return NoTransitionPage(
-                  key: state.pageKey, child: MeasurementPage(measurementId: measurmentId));
+                  key: state.pageKey,
+                  child: MeasurementPage(measurementId: measurmentId));
             })
       ],
       redirect: (state) {

@@ -129,7 +129,7 @@ class DefaultNavigationDrawer extends StatelessWidget {
                     // close the drawer
                     Navigator.pop(context);
 
-                    GoRouter.of(context).go("/plan");
+                    GoRouter.of(context).go("/plans");
                   }
                   ),
               ListTile(

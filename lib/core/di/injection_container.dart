@@ -9,6 +9,10 @@ import 'package:workout_watcher/features/exercises/domain/repositorys/exercise_r
 import 'package:workout_watcher/features/measurements/bloc/measurements_bloc.dart';
 import 'package:workout_watcher/features/measurements/data/repositories/measurement_repository_firebase.dart';
 import 'package:workout_watcher/features/measurements/domain/repositories/measurment_repository.dart';
+import 'package:workout_watcher/features/plans/bloc/creation/plan_create_bloc.dart';
+import 'package:workout_watcher/features/plans/bloc/plan_bloc.dart';
+import 'package:workout_watcher/features/plans/data/repositories/plan_repository_firebase.dart';
+import 'package:workout_watcher/features/plans/domain/repositories/plan_repository.dart';
 
 final sl = GetIt.instance;
 
@@ -26,6 +30,14 @@ Future<void> init() async {
     () => MeasurementsBloc(sl()),
   );
 
+  sl.registerLazySingleton<PlanBloc>(
+        () => PlanBloc(sl()),
+  );
+
+  sl.registerLazySingleton<PlanCreateBloc>(
+        () => PlanCreateBloc(),
+  );
+
   // Use cases
 
   // user
@@ -36,6 +48,7 @@ Future<void> init() async {
       () => ExerciseRepositoryFirebase());
   sl.registerLazySingleton<MeasurementRepository>(
       () => MeasurementRepositoryFirebase());
+  sl.registerLazySingleton<PlanRepository>(() => PlanRepositoryFirebase());
 
   // Data sources
 

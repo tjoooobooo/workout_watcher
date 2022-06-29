@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:loggy/loggy.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
@@ -16,12 +17,15 @@ import 'package:workout_watcher/features/exercises/bloc/exercises_bloc.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_event.dart';
 import 'package:workout_watcher/features/measurements/bloc/measurements_bloc.dart';
 import 'package:workout_watcher/features/measurements/bloc/measurements_event.dart';
+import 'package:workout_watcher/features/plans/bloc/plan_bloc.dart';
+import 'package:workout_watcher/features/plans/bloc/plan_event.dart';
 import 'package:workout_watcher/utils/FirebaseHandler.dart';
 
 import 'Views/DashboardView.dart';
 import 'utils/AuthenticationService.dart';
 
 Future<void> main() async {
+  Loggy.initLoggy();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await di.init();
@@ -42,6 +46,10 @@ Future<void> main() async {
               BlocProvider<MeasurementsBloc>(create: (context) {
                 return sl<MeasurementsBloc>()
                   ..add(GetAllMeasurementsEvent(refreshCache: true));
+              }),
+              BlocProvider<PlanBloc>(create: (context) {
+                return sl<PlanBloc>()
+                  ..add(GetAllPlansEvent(refreshCache: true));
               })
             ], child: const TrackMyWorkoutApp()))
           },
@@ -71,10 +79,17 @@ class TrackMyWorkoutApp extends StatelessWidget {
           color: Color(0xff000e75),
         ),
         primarySwatch: Colors.blueGrey,
-        primaryColorLight: Colors.lightBlueAccent,
         dividerColor: Colors.black,
-        primaryColor: const Color(0xff000e75),
-        primaryColorDark: const Color(0xff000428),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(
+            color: Colors.white
+          )
+        ).apply(
+          bodyColor: Colors.white
+        ),
+        primaryColor: const Color(0xff000452),
+        primaryColorLight: Colors.lightBlueAccent,
+        primaryColorDark: const Color(0xff000000),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     );
@@ -92,6 +107,6 @@ class AuthenticationWrapper extends StatelessWidget {
       return DashboardView();
     }
 
-    return LoginPage();
+    return const LoginPage();
   }
 }

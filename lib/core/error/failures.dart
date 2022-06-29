@@ -12,4 +12,6 @@ class NoFailure extends Failure {}
 
 class LoginFailure extends Failure {}
 
+class DBFailure extends Failure {}
+
 class NoExerciseFoundFailure extends Failure {}

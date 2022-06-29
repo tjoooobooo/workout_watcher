@@ -1,13 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:workout_watcher/Models/Plan.dart';
-import 'package:workout_watcher/Plan/CreatePlanMain.dart';
 import 'package:workout_watcher/Widgets/LoadWidget.dart';
-import 'package:workout_watcher/features/plan/presentation/widgets/plan_list_item.dart';
+import 'package:workout_watcher/core/di/injection_container.dart';
 import 'package:workout_watcher/core/features/navigation/default_navigation_drawer.dart';
-import 'package:workout_watcher/utils/FirebaseHandler.dart';
+import 'package:workout_watcher/features/plans/bloc/plan_bloc.dart';
+import 'package:workout_watcher/features/plans/bloc/plan_event.dart';
+import 'package:workout_watcher/features/plans/bloc/plan_state.dart';
+import 'package:workout_watcher/features/plans/data/models/plan_model.dart';
+import 'package:workout_watcher/features/plans/presentation/widgets/plan_list_item.dart';
 
 class PlanListPage extends StatefulWidget {
+  const PlanListPage({Key? key}) : super(key: key);
+
   @override
   State<PlanListPage> createState() => _PlanListPageState();
 }
@@ -15,9 +22,13 @@ class PlanListPage extends StatefulWidget {
 class _PlanListPageState extends State<PlanListPage> {
   List<Plan> plans = [];
 
-  Future<void> getPlans() async {
-    plans = await FirebaseHandler.getPlans();
+  @override
+  void initState() {
+    super.initState();
+
+    sl<PlanBloc>().add(GetAllPlansEvent());
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +38,9 @@ class _PlanListPageState extends State<PlanListPage> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.add),
-            tooltip: "Add a new plan",
+            tooltip: "Add a new plans",
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CreatePlanMainPage(workoutPlan: null)
-                  )
-              ).then((value) => {
-                setState(() {})
-              });
+              GoRouter.of(context).push("/plan/0");
             },
           ),
           IconButton(
@@ -48,20 +52,19 @@ class _PlanListPageState extends State<PlanListPage> {
           ),
         ],
       ),
-      drawer: DefaultNavigationDrawer(),
+      drawer: const DefaultNavigationDrawer(),
       body: Container(
         color: Colors.black,
         child: Center(
-            child: FutureBuilder(
-                future: getPlans(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
+            child: BlocBuilder<PlanBloc, PlanState>(
+                builder: (context, state) {
+                  if (state.status == PlanStateStatus.loaded) {
                     return ListView.builder(
-                        itemCount: plans.length,
+                        itemCount: state.plans.length,
                         itemBuilder: (context, index) {
-                          Plan currentPlan = plans[index];
+                          PlanModel plan = state.plans.elementAt(index);
 
-                          return PlanListItem(currentPlan: currentPlan);
+                          return PlanListItem(plan: plan);
                         }
                     );
                   } else {

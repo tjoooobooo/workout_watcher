@@ -40,6 +40,7 @@ class _ExercisePageState extends State<ExercisePage> {
     "lh": "Langhantel",
     "kh": "Kurzhantel",
     "cable": "Kabelzug",
+    "cable_tower": "Kabelturm",
     "machine": "Maschine",
     "pl": "Plate loaded",
     "multi": "Multipresse",
@@ -75,90 +76,93 @@ class _ExercisePageState extends State<ExercisePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: BlocBuilder<ExercisesBloc, ExerciseState>(
-        buildWhen: (previous, current) {
-          if (current.status == ExerciseStateStatus.loadedExercise) {
-            return true;
-          }
-
-          return false;
-        },
-        builder: (context, state) {
-          if (state.status == ExerciseStateStatus.loadedExercise) {
-            return Text(state.exercise!.name);
-          }
-
-          return const Text("Übung erstellen");
-        },
-      ), actions: <Widget>[
-        IconButton(
-            onPressed: () {
-              if (formGlobalKey.currentState!.validate() &&
-                  chosenExerciseType != null) {
-                if (exerciseId != "0") {
-                  ExerciseModel exercise = ExerciseModel(
-                      id: exerciseId,
-                      name: nameCtrl.text,
-                      detail: detailCtrl.text,
-                      muscleGroup: chosenMuscleGroup!,
-                      equipment: chosenEquipment!,
-                      type: chosenExerciseType!,
-                      imageUrl: exerciseImageUrl,
-                      image: chosenImage);
-
-                  sl<ExercisesBloc>().add(UpdateExerciseEvent(exercise));
-                } else {
-                  ExerciseModel exercise = ExerciseModel(
-                      name: nameCtrl.text,
-                      detail: detailCtrl.text,
-                      muscleGroup: chosenMuscleGroup!,
-                      equipment: chosenEquipment!,
-                      type: chosenExerciseType!,
-                      image: chosenImage);
-
-                  sl<ExercisesBloc>().add(AddExerciseEvent(exercise));
-                }
-
-                GoRouter.of(context).pop();
+      appBar: AppBar(
+          title: BlocBuilder<ExercisesBloc, ExerciseState>(
+            buildWhen: (previous, current) {
+              if (current.status == ExerciseStateStatus.loadedExercise) {
+                return true;
               }
+
+              return false;
             },
-            icon: const Icon(Icons.save)),
-        Visibility(
-          visible: widget.exerciseId != "0",
-          child: IconButton(
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text("Übung löschen"),
-                        content: Text(
-                            "Sind wirklich sicher, dass sie die Übung \"${nameCtrl.text}\" löschen wollen?"),
-                        actions: [
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(true);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.red.shade400),
-                              child: Text("Löschen")),
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(false);
-                              },
-                              child: Text("Abbrechen"))
-                        ],
-                      );
-                    }).then((value) {
-                  if (value) {
-                    sl<ExercisesBloc>().add(DeleteExerciseEvent(exerciseId!));
+            builder: (context, state) {
+              if (state.status == ExerciseStateStatus.loadedExercise) {
+                return Text(state.exercise!.name);
+              }
+
+              return const Text("Übung erstellen");
+            },
+          ),
+          actions: <Widget>[
+            IconButton(
+                onPressed: () {
+                  if (formGlobalKey.currentState!.validate() &&
+                      chosenExerciseType != null) {
+                    if (exerciseId != "0") {
+                      ExerciseModel exercise = ExerciseModel(
+                          id: exerciseId,
+                          name: nameCtrl.text,
+                          detail: detailCtrl.text,
+                          muscleGroup: chosenMuscleGroup!,
+                          equipment: chosenEquipment!,
+                          type: chosenExerciseType!,
+                          imageUrl: exerciseImageUrl,
+                          image: chosenImage);
+
+                      sl<ExercisesBloc>().add(UpdateExerciseEvent(exercise));
+                    } else {
+                      ExerciseModel exercise = ExerciseModel(
+                          name: nameCtrl.text,
+                          detail: detailCtrl.text,
+                          muscleGroup: chosenMuscleGroup!,
+                          equipment: chosenEquipment!,
+                          type: chosenExerciseType!,
+                          image: chosenImage);
+
+                      sl<ExercisesBloc>().add(AddExerciseEvent(exercise));
+                    }
+
                     GoRouter.of(context).pop();
                   }
-                });
-              },
-              icon: const Icon(Icons.delete_forever)),
-        ),
-      ]),
+                },
+                icon: const Icon(Icons.save)),
+            Visibility(
+              visible: widget.exerciseId != "0",
+              child: IconButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Übung löschen"),
+                            content: Text(
+                                "Sind wirklich sicher, dass sie die Übung \"${nameCtrl.text}\" löschen wollen?"),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(true);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.red.shade400),
+                                  child: Text("Löschen")),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(false);
+                                  },
+                                  child: Text("Abbrechen"))
+                            ],
+                          );
+                        }).then((value) {
+                      if (value) {
+                        sl<ExercisesBloc>()
+                            .add(DeleteExerciseEvent(exerciseId!));
+                        GoRouter.of(context).pop();
+                      }
+                    });
+                  },
+                  icon: const Icon(Icons.delete_forever)),
+            ),
+          ]),
       body: Container(
         height: MediaQuery.of(context).size.height,
         color: Theme.of(context).primaryColorDark,
@@ -266,9 +270,9 @@ class _ExercisePageState extends State<ExercisePage> {
                                 label: "Name",
                               ),
                               IconLabelTextRow(
-                                  iconData: Icons.info_outline_rounded,
-                                  label: "Details",
-                                  controller: detailCtrl,
+                                iconData: Icons.info_outline_rounded,
+                                label: "Details",
+                                controller: detailCtrl,
                                 validateForValue: false,
                               ),
                             ],

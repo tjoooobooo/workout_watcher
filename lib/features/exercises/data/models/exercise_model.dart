@@ -2,6 +2,18 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 
+enum EquipmentTypes {
+  lh,
+  kh,
+  cable,
+  cableTower,
+  machine,
+  pl,
+  multi,
+  sz,
+  bodyWeight
+}
+
 @immutable
 class ExerciseModel extends Equatable {
   final String name;
@@ -23,6 +35,56 @@ class ExerciseModel extends Equatable {
       this.equipment,
       this.image,
       this.imageUrl});
+
+  String getEquipmentLabel() {
+    switch (equipment) {
+      case ("lh"):
+        return "Langhantel";
+      case ("kh"):
+        return "Kurzhantel";
+      case ("cable"):
+        return "Kabelzug";
+      case ("cable_tower"):
+        return "Kabelturm";
+      case ("machine"):
+        return "Maschine";
+      case ("pl"):
+        return "Plate loaded";
+      case ("multi"):
+        return "Multipresse";
+      case ("sz"):
+        return "SZ-Stange";
+      case ("body_weight"):
+        return "Körpergewicht";
+    }
+
+    return "";
+  }
+
+  // String getEquipmentLabel() {
+  //   switch (equipment) {
+  //     case EquipmentTypes.lh:
+  //       return "Langhantel";
+  //     case EquipmentTypes.kh:
+  //       return "Kurzhantel";
+  //     case EquipmentTypes.cable:
+  //       return "Kabelzug";
+  //     case EquipmentTypes.cableTower:
+  //       return "Kabelturm";
+  //     case EquipmentTypes.machine:
+  //       return "Maschine";
+  //     case EquipmentTypes.pl:
+  //       return "Plate loaded";
+  //     case EquipmentTypes.multi:
+  //       return "Multipresse";
+  //     case EquipmentTypes.sz:
+  //       return "SZ-Stange";
+  //     case EquipmentTypes.bodyWeight:
+  //       return "Körpergewicht";
+  //     case null:
+  //       return "";
+  //   }
+  // }
 
   Map<String, dynamic> toJSON() {
     Map<String, dynamic> map = {};

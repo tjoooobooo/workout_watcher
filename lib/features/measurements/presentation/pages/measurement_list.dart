@@ -148,7 +148,11 @@ class MeasurementsListContainer extends StatelessWidget {
                               ),
                               trailing: Text(
                                 DateFormat("dd.MM.yyy").format(measurement.date),
-                                style: const TextStyle(color: Colors.white),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold
+                                ),
                               ),
                             ),
                           ),

@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:workout_watcher/Models/Plan.dart';
 import 'package:workout_watcher/Plan/CreatePlanMain.dart';
+import 'package:workout_watcher/features/exercises/data/models/exercise_model.dart';
+import 'package:workout_watcher/features/plans/data/models/plan_model.dart';
 
 class PlanListItem extends StatelessWidget {
   const PlanListItem({
     Key? key,
-    required this.currentPlan,
+    required this.plan,
   }) : super(key: key);
 
-  final Plan currentPlan;
+  final PlanModel plan;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CreatePlanMainPage(workoutPlan: currentPlan)
-            )
-        );
+        GoRouter.of(context).push("/plan/${plan.id}");
       },
       child: Card(
           color: Theme
@@ -28,8 +26,8 @@ class PlanListItem extends StatelessWidget {
               .primary,
           child: ListTile(
               leading: const Icon(Icons.assignment),
-              title: Text(currentPlan.name),
-              trailing: Text(currentPlan.state)
+              title: Text(plan.name),
+              trailing: Text(plan.state.name)
           )
       ),
     );
