@@ -18,6 +18,7 @@ class PlanDayExerciseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     String exerciseName = "";
     String detail = "";
+    String? imageUrl;
 
     return Container(
         margin: const EdgeInsets.only(bottom: 8.0),
@@ -29,9 +30,10 @@ class PlanDayExerciseItem extends StatelessWidget {
         child: BlocConsumer<ExercisesBloc, ExerciseState>(
           bloc: sl<ExercisesBloc>()..add(GetExerciseEvent(exerciseId)),
           listener: (context, state) {
-            if (state.status.isLoadedExercise) {
+            if (state.status.isLoadedExercise && state.exercise!.id == exerciseId) {
               exerciseName = state.exercise!.name + ", " + state.exercise!.detail;
               detail = state.exercise!.getEquipmentLabel();
+              imageUrl = state.exercise!.imageUrl;
             }
           },
           builder: (context, state) {
@@ -41,23 +43,34 @@ class PlanDayExerciseItem extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.only(left: 8.0, right: 14.0),
-                      child: const CircleAvatar(radius: 20.0, child: Icon(Icons.fitness_center)),
+                      padding: const EdgeInsets.only(left: 14.0, right: 14.0),
+                      child: imageUrl != null
+                          ? CircleAvatar(
+                        radius: 28.0,
+                        backgroundImage: NetworkImage(imageUrl!),
+                        backgroundColor: Colors.transparent,
+                      )
+                          : const CircleAvatar(
+                          radius: 28.0, child: Icon(Icons.fitness_center)),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          exerciseName,
-                          textAlign: TextAlign.start,
-                          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                        ),
-                        Text(
-                          detail,
-                          textAlign: TextAlign.left,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ],
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            exerciseName,
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                          Text(
+                            detail,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

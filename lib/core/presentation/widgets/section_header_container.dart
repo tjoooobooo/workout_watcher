@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class SectionHeaderContainer extends StatelessWidget {
   final String header;
-  final IconData? iconData;
+  final Widget? icon;
 
-  const SectionHeaderContainer({Key? key, required this.header, this.iconData}) : super(key: key);
+  const SectionHeaderContainer({Key? key, required this.header, this.icon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,7 @@ class SectionHeaderContainer extends StatelessWidget {
               textAlign: TextAlign.start,
               style:
                   const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-          Icon(
-            iconData,
-            color: Colors.white,
-          ),
+          icon != null ? icon! : Container()
         ],
       ),
     );

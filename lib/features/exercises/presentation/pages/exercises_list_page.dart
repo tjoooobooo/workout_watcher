@@ -11,6 +11,8 @@ import 'package:workout_watcher/features/exercises/bloc/exercises_state.dart';
 import 'package:workout_watcher/features/exercises/data/models/exercise_model.dart';
 import 'package:workout_watcher/features/exercises/presentation/widgets/exercise_list_container.dart';
 import 'package:workout_watcher/features/exercises/presentation/widgets/exercise_list_search_container.dart';
+import 'package:workout_watcher/features/plans/bloc/creation/plan_create_bloc.dart';
+import 'package:workout_watcher/features/plans/bloc/creation/plan_create_event.dart';
 
 class ExercisesListPage extends StatefulWidget {
   final bool selectionMode;
@@ -18,31 +20,35 @@ class ExercisesListPage extends StatefulWidget {
   const ExercisesListPage({Key? key, this.selectionMode = false}) : super(key: key);
 
   @override
-  _ExercisesListPage createState() => _ExercisesListPage(selectionMode);
+  _ExercisesListPage createState() => _ExercisesListPage();
 }
 
 List<String> selectedExerciseIds = [];
 
 class _ExercisesListPage extends State<ExercisesListPage> {
-  bool isSelectionMode = false;
-
   final TextEditingController searchCtrl = TextEditingController();
 
-  _ExercisesListPage(this.isSelectionMode);
+  @override
+  void initState() {
+    super.initState();
+
+    // clear selected exercises on first page open
+    selectedExerciseIds.clear();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    selectedExerciseIds.clear();
-
     return Scaffold(
         appBar: AppBar(
           title: const Text("Übungsübersicht"),
           actions: <Widget>[
-            if (isSelectionMode) IconButton(
+            if (widget.selectionMode) IconButton(
               icon: const Icon(Icons.save),
               tooltip: "Übungen zum Plan hinzufügen",
               onPressed: () {
-                Navigator.pop(context, selectedExerciseIds);
+                sl<PlanCreateBloc>().add(AddExercisesToDayEvent(exerciseIds: selectedExerciseIds));
+                GoRouter.of(context).pop();
               },
             ),
             IconButton(
@@ -54,7 +60,7 @@ class _ExercisesListPage extends State<ExercisesListPage> {
             )
           ],
         ),
-        drawer: const DefaultNavigationDrawer(),
+        drawer: widget.selectionMode == false ? const DefaultNavigationDrawer() : null,
         body: SingleChildScrollView(
           child: Container(
             color: Theme.of(context).primaryColorDark,
@@ -83,8 +89,8 @@ class _ExercisesListPage extends State<ExercisesListPage> {
                             return const LoadingWidget();
                           } else if (state.status == ExerciseStateStatus.loaded) {
                             return ExerciseListContainer(
-                                exercises: state.exercises,
-                                isSelectionMode: isSelectionMode
+                                exercises: state.exercises!,
+                                isSelectionMode: widget.selectionMode
                             );
                           }
 

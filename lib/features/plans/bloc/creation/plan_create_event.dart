@@ -54,3 +54,12 @@ class SwitchDayEvent extends PlanCreateEvent {
 }
 
 class SwitchedDayEvent extends PlanCreateEvent {}
+
+class AddExercisesToDayEvent extends PlanCreateEvent {
+  final List<String> exerciseIds;
+
+  AddExercisesToDayEvent({required this.exerciseIds});
+
+  @override
+  List<Object> get props => [exerciseIds];
+}

@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:workout_watcher/Widgets/LoadWidget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
-import 'package:workout_watcher/core/presentation/widgets/icon_label_text_row.dart';
-import 'package:workout_watcher/core/presentation/widgets/section_header_container.dart';
-import 'package:workout_watcher/features/exercises/data/models/exercise_model.dart';
 import 'package:workout_watcher/features/plans/bloc/creation/plan_create_bloc.dart';
 import 'package:workout_watcher/features/plans/bloc/creation/plan_create_event.dart';
 import 'package:workout_watcher/features/plans/bloc/creation/plan_create_state.dart';
 import 'package:workout_watcher/features/plans/bloc/plan_bloc.dart';
 import 'package:workout_watcher/features/plans/bloc/plan_event.dart';
-import 'package:workout_watcher/features/plans/bloc/plan_state.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_day_model.dart';
 import 'package:workout_watcher/features/plans/presentation/widgets/plan_day_container.dart';
-import 'package:workout_watcher/features/plans/presentation/widgets/plan_day_exercise_item.dart';
-import 'package:workout_watcher/features/plans/presentation/widgets/plan_day_info_container.dart';
 import 'package:workout_watcher/features/plans/presentation/widgets/plan_day_page_indicator.dart';
 
 class PlanPageDays extends StatefulWidget {
@@ -48,7 +42,16 @@ class _PlanPageDaysState extends State<PlanPageDays> {
     final PageController pageController = PageController(initialPage: 0);
 
     return Scaffold(
-        appBar: AppBar(title: const Text("Tage")),
+        appBar: AppBar(
+            title: const Text("Tage"),
+          actions: [
+            IconButton(onPressed: () {
+              sl<PlanBloc>().add(UpdatePlanEvent(planCreateBloc.state.plan!));
+              sl<PlanBloc>().add(GetAllPlansEvent());
+              GoRouter.of(context).go("/plans");
+            }, icon: const Icon(Icons.save))
+          ],
+        ),
         body: Container(
             color: Theme.of(context).primaryColorDark,
             height: MediaQuery.of(context).size.height,
@@ -67,6 +70,7 @@ class _PlanPageDaysState extends State<PlanPageDays> {
                   FocusScope.of(context).unfocus();
                   await pageController.animateToPage(state.dayIndex!,
                       duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+                  // await Future.delayed(Duration(seconds: 2));
                   planCreateBloc.add(SwitchedDayEvent());
 
                 }
@@ -110,7 +114,7 @@ class _PlanPageDaysState extends State<PlanPageDays> {
                       children: planDayInfoContainers,
                       onPageChanged: (value) {
                         currentDayNumber = value;
-                        if (state.status.isSwitchDay == false) {
+                        if (state.isCurrentlySwitchingDay != true) {
                           planCreateBloc.add(SwitchDayEvent(selectedDay: value));
                         }
                       },

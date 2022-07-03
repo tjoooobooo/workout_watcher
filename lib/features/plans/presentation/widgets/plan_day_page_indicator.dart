@@ -16,6 +16,9 @@ class DayRowItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PlanCreateBloc, PlanCreateState>(
       bloc: planCreateBloc,
+      buildWhen: (previous, current) {
+        return current.status.hasSwitchedDay;
+      },
       builder: (context, state) {
         bool isSelected = dayNumber == state.dayIndex;
 

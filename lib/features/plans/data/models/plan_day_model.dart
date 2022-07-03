@@ -14,6 +14,12 @@ class PlanDayModel extends Equatable {
     return PlanDayModel(name: name ?? this.name, exercises: exercises ?? this.exercises);
   }
 
+  PlanDayModel addExercises(List<String> newExercises) {
+    List<String> currentExercises = exercises;
+    currentExercises.addAll(newExercises);
+    return PlanDayModel(name: name, exercises: currentExercises);
+  }
+
   Map<String, dynamic> toJSON() {
     return {"name": name, "exercises": exercises};
   }

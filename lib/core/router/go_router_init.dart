@@ -34,7 +34,7 @@ GoRouter initGoRouter(AuthBloc authBloc) {
         GoRoute(
             path: "/plans",
             pageBuilder: (context, state) {
-                return NoTransitionPage(key: state.pageKey, child: const PlanListPage());
+              return NoTransitionPage(key: state.pageKey, child: const PlanListPage());
             }),
         GoRoute(
             path: "/plan/:plan_id",
@@ -52,9 +52,12 @@ GoRouter initGoRouter(AuthBloc authBloc) {
             }),
         GoRoute(
             path: "/exercises",
-            pageBuilder: (context, state) =>
-                NoTransitionPage(
-                    key: state.pageKey, child: const ExercisesListPage())),
+            pageBuilder: (context, state) {
+              bool selectionMode = state.queryParams["selectionMode"] == "true";
+
+              return NoTransitionPage(
+                  key: state.pageKey, child: ExercisesListPage(selectionMode: selectionMode));
+            }),
         GoRoute(
             path: "/exercise/:exercise_id",
             pageBuilder: (context, state) {

@@ -22,22 +22,16 @@ extension ExerciseStateStatusX on ExerciseStateStatus {
 @immutable
 class ExerciseState extends Equatable {
   final ExerciseStateStatus status;
-  final List<ExerciseModel> exercises;
+  final List<ExerciseModel>? exercises;
   final ExerciseModel? exercise;
 
   const ExerciseState(
       {this.status = ExerciseStateStatus.loading,
-      this.exercises = const [],
+      this.exercises,
       this.exercise});
 
   @override
-  List<Object> get props {
-    if (exercise == null) {
-      return [status, exercises];
-    } else {
-      return [status, exercises, exercise!];
-    }
-  }
+  List<Object?> get props => [status, exercises, exercise];
 
   ExerciseState copyWith(
       {ExerciseStateStatus? status,
@@ -45,7 +39,7 @@ class ExerciseState extends Equatable {
       ExerciseModel? exercise}) {
     return ExerciseState(
         status: status ?? this.status,
-        exercises: exercises ?? [],
+        exercises: exercises ?? this.exercises,
         exercise: exercise);
   }
 }

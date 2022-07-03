@@ -11,28 +11,28 @@ class SimpleBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
-    // logInfo("\n-------- Change start -------- \n"
-    //     "Current: " + change.currentState.toString() + "\n"
-    //     "Next: " + change.nextState.toString() + "\n"
-    //     "--------- Change end --------- \n"
-    // );
+    logInfo("\n-------- Change start -------- \n"
+        "Current: " + change.currentState.toString() + "\n"
+        "Next: " + change.nextState.toString() + "\n"
+        "--------- Change end --------- \n"
+    );
   }
 
   @override
   void onCreate(BlocBase bloc) {
     super.onCreate(bloc);
-    // logInfo(bloc);
+    logInfo(bloc);
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    // logInfo("-------- Transition start -------- \n"
-    //     "Current: " + transition.currentState.toString() + "\n"
-    //     "Event: " + transition.event.toString() + "\n"
-    //     "Next: " + transition.nextState.toString() + "\n"
-    //     "--------- Transition end --------- \n"
-    // );
+    logInfo("\n-------- Transition start -------- \n"
+        "Current: " + transition.currentState.toString() + "\n"
+        "Event: " + transition.event.toString() + "\n"
+        "Next: " + transition.nextState.toString() + "\n"
+        "--------- Transition end --------- \n"
+    );
   }
 
   @override

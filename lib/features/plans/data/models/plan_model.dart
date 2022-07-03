@@ -1,6 +1,7 @@
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
 import 'package:workout_watcher/Models/PlanDay.dart';
+import 'package:workout_watcher/features/exercises/data/models/exercise_model.dart';
 import 'package:workout_watcher/features/plans/bloc/plan_state.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_day_model.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_week_model.dart';
@@ -35,13 +36,25 @@ class PlanModel extends Equatable {
       PlanModelStates? state,
       List<PlanDayModel>? planDays,
       Map<int, PlanWeekModel>? planWeeks}) {
+    int newUnits = units ?? this.units;
+    List<PlanDayModel> newPlanDays = planDays ?? this.planDays;
+
+    int planLength = newPlanDays.length;
+
+    if (newUnits < planLength) {
+      newPlanDays.removeRange(newUnits, planLength);
+    } else if (newUnits > planLength) {
+      newPlanDays.addAll(List<PlanDayModel>.generate(
+          newUnits - planLength, (index) => PlanDayModel(name: "Tag ${planLength + index + 1}")));
+    }
+
     return PlanModel(
         id: id,
         name: name ?? this.name,
         cycles: cycles ?? this.cycles,
         units: units ?? this.units,
         state: state ?? this.state,
-        planDays: planDays ?? this.planDays,
+        planDays: newPlanDays,
         planWeeks: planWeeks ?? this.planWeeks);
   }
 

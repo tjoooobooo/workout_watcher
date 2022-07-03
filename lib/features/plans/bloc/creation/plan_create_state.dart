@@ -2,7 +2,15 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_model.dart';
 
-enum PlanCreateStateStatus { initial, error, updated, switchedDay, switchDay, changedDayName, updating }
+enum PlanCreateStateStatus {
+  initial,
+  error,
+  updated,
+  switchedDay,
+  switchDay,
+  changedDayName,
+  updating
+}
 
 extension PlanCreateStateStatusX on PlanCreateStateStatus {
   bool get isInitial => this == PlanCreateStateStatus.initial;
@@ -16,6 +24,8 @@ extension PlanCreateStateStatusX on PlanCreateStateStatus {
   bool get hasChangedDayName => this == PlanCreateStateStatus.changedDayName;
 
   bool get isUpdating => this == PlanCreateStateStatus.updating;
+
+  bool get hasUpdated => this == PlanCreateStateStatus.updated;
 }
 
 @immutable
@@ -23,16 +33,26 @@ class PlanCreateState extends Equatable {
   final PlanCreateStateStatus status;
   final PlanModel? plan;
   final int? dayIndex;
+  final bool? isCurrentlySwitchingDay;
 
-  const PlanCreateState({this.status = PlanCreateStateStatus.initial, this.plan, this.dayIndex});
+  const PlanCreateState(
+      {this.status = PlanCreateStateStatus.initial,
+      this.plan,
+      this.dayIndex,
+      this.isCurrentlySwitchingDay});
 
   @override
-  List<Object?> get props => [status, plan, dayIndex];
+  List<Object?> get props => [status, plan, dayIndex, isCurrentlySwitchingDay];
 
-  PlanCreateState copyWith({PlanCreateStateStatus? status, PlanModel? plan, int? dayIndex}) {
+  PlanCreateState copyWith(
+      {PlanCreateStateStatus? status,
+      PlanModel? plan,
+      int? dayIndex,
+      bool? isCurrentlySwitchingDay}) {
     return PlanCreateState(
         status: status ?? this.status,
         plan: plan ?? this.plan,
-        dayIndex: dayIndex ?? this.dayIndex);
+        dayIndex: dayIndex ?? this.dayIndex,
+        isCurrentlySwitchingDay: isCurrentlySwitchingDay ?? this.isCurrentlySwitchingDay);
   }
 }
