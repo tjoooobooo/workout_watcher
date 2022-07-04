@@ -24,21 +24,18 @@ class PlanDayContainer extends StatefulWidget {
 }
 
 class _PlanDayContainerState extends State<PlanDayContainer> {
-  final PlanCreateBloc planCreateBloc = sl<PlanCreateBloc>();
-
   final TextEditingController dayNameCtrl = TextEditingController();
 
 
   @override
   void initState() {
     super.initState();
-    dayNameCtrl.text = planCreateBloc.state.plan!.planDays.elementAt(widget.dayNumber).name;
+    dayNameCtrl.text = sl<PlanCreateBloc>().state.plan!.planDays.elementAt(widget.dayNumber).name;
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PlanCreateBloc, PlanCreateState>(
-        bloc: planCreateBloc,
         listener: (context, state) {
           if (state.status.hasChangedDayName) {
             dayNameCtrl.text = state.plan!.planDays.elementAt(widget.dayNumber).name;
@@ -64,7 +61,7 @@ class _PlanDayContainerState extends State<PlanDayContainer> {
                     label: "Name",
                     controller: dayNameCtrl,
                     onChanged: (value) {
-                        planCreateBloc.add(
+                      sl<PlanCreateBloc>().add(
                             ChangeDayNameEvent(index: widget.dayNumber, name: dayNameCtrl.text));
                     },
                   )),
@@ -90,7 +87,6 @@ class _PlanDayContainerState extends State<PlanDayContainer> {
                     ),
                     child: SingleChildScrollView(
                       child: BlocBuilder<PlanCreateBloc, PlanCreateState>(
-                        bloc: planCreateBloc,
                         buildWhen: (pre, curr) {
                           return curr.status.hasUpdated;
                         },

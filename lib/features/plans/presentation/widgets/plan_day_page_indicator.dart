@@ -6,16 +6,14 @@ import 'package:workout_watcher/features/plans/bloc/creation/plan_create_event.d
 import 'package:workout_watcher/features/plans/bloc/creation/plan_create_state.dart';
 
 class DayRowItem extends StatelessWidget {
-  final PlanCreateBloc planCreateBloc = sl<PlanCreateBloc>();
   final String name;
   final int dayNumber;
 
-  DayRowItem({Key? key, required this.name, required this.dayNumber}) : super(key: key);
+  const DayRowItem({Key? key, required this.name, required this.dayNumber}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PlanCreateBloc, PlanCreateState>(
-      bloc: planCreateBloc,
       buildWhen: (previous, current) {
         return current.status.hasSwitchedDay;
       },
@@ -24,7 +22,7 @@ class DayRowItem extends StatelessWidget {
 
         return GestureDetector(
           onTap: () {
-            planCreateBloc.add(SwitchDayEvent(selectedDay: dayNumber));
+            sl<PlanCreateBloc>().add(SwitchDayEvent(selectedDay: dayNumber));
           },
           child: Container(
               height: MediaQuery.of(context).size.height * 0.05,

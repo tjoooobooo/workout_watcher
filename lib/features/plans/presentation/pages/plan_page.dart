@@ -25,7 +25,6 @@ class PlanPage extends StatefulWidget {
 
 class _PlanPage extends State<PlanPage> {
   final TextEditingController nameCtrl = TextEditingController();
-  PlanCreateBloc planCreateBloc = sl<PlanCreateBloc>();
 
   int chosenCyclesCount = 4;
   int chosenDaysCount = 4;
@@ -49,11 +48,13 @@ class _PlanPage extends State<PlanPage> {
           appBar: AppBar(
             title: const Text("Plan erstellen"),
             actions: [
-              IconButton(onPressed: () {
-                sl<PlanBloc>().add(UpdatePlanEvent(planCreateBloc.state.plan!));
-                sl<PlanBloc>().add(GetAllPlansEvent());
-                GoRouter.of(context).pop();
-              }, icon: const Icon(Icons.save))
+              IconButton(
+                  onPressed: () {
+                    sl<PlanBloc>().add(UpdatePlanEvent(sl<PlanCreateBloc>().state.plan!));
+                    sl<PlanBloc>().add(GetAllPlansEvent());
+                    GoRouter.of(context).pop();
+                  },
+                  icon: const Icon(Icons.save))
             ],
           ),
           body: SingleChildScrollView(
@@ -64,7 +65,7 @@ class _PlanPage extends State<PlanPage> {
                   chosenDaysCount = state.plan!.units;
                   chosenCyclesCount = state.plan!.cycles;
 
-                  planCreateBloc.add(StartedEditingEvent(plan: state.plan!));
+                  sl<PlanCreateBloc>().add(StartedEditingEvent(plan: state.plan!));
                   setState(() {});
                 }
               },
@@ -93,7 +94,7 @@ class _PlanPage extends State<PlanPage> {
                                     iconData: Icons.abc_rounded,
                                     label: "Name",
                                     controller: nameCtrl,
-                                    onChanged: (value) => planCreateBloc
+                                    onChanged: (value) => sl<PlanCreateBloc>()
                                         .add(UpdatePlanCreateEvent(name: nameCtrl.text)),
                                   ),
                                   IconLabelDropdownRow(
@@ -111,7 +112,8 @@ class _PlanPage extends State<PlanPage> {
                                       },
                                       changeValueFunc: (value) {
                                         chosenDaysCount = value;
-                                        planCreateBloc.add(UpdatePlanCreateEvent(units: value));
+                                        sl<PlanCreateBloc>()
+                                            .add(UpdatePlanCreateEvent(units: value));
                                       }),
                                   IconLabelDropdownRow(
                                       iconData: FontAwesomeIcons.calendar,
@@ -129,7 +131,8 @@ class _PlanPage extends State<PlanPage> {
                                       },
                                       changeValueFunc: (value) {
                                         chosenCyclesCount = value;
-                                        planCreateBloc.add(UpdatePlanCreateEvent(cycles: value));
+                                        sl<PlanCreateBloc>()
+                                            .add(UpdatePlanCreateEvent(cycles: value));
                                       }),
                                 ],
                               ),
@@ -174,10 +177,9 @@ class _PlanPage extends State<PlanPage> {
 
                             if (statePlan != null) {
                               PlanModel plan = statePlan.copyWith(
-                                name: nameCtrl.text,
-                                cycles: chosenCyclesCount,
-                                units: chosenDaysCount
-                              );
+                                  name: nameCtrl.text,
+                                  cycles: chosenCyclesCount,
+                                  units: chosenDaysCount);
 
                               sl<PlanBloc>().add(UpdatePlanEvent(plan));
                             } else {

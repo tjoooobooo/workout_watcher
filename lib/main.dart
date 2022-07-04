@@ -17,6 +17,8 @@ import 'package:workout_watcher/features/exercises/bloc/exercises_bloc.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_event.dart';
 import 'package:workout_watcher/features/measurements/bloc/measurements_bloc.dart';
 import 'package:workout_watcher/features/measurements/bloc/measurements_event.dart';
+import 'package:workout_watcher/features/plans/bloc/creation/plan_create_bloc.dart';
+import 'package:workout_watcher/features/plans/bloc/creation/plan_create_event.dart';
 import 'package:workout_watcher/features/plans/bloc/plan_bloc.dart';
 import 'package:workout_watcher/features/plans/bloc/plan_event.dart';
 import 'package:workout_watcher/utils/FirebaseHandler.dart';
@@ -50,13 +52,15 @@ Future<void> main() async {
               BlocProvider<PlanBloc>(create: (context) {
                 return sl<PlanBloc>()
                   ..add(GetAllPlansEvent(refreshCache: true));
-              })
+              }),
+              BlocProvider<PlanCreateBloc>(create: (context) {
+                return sl<PlanCreateBloc>()
+                  ..add(InitialEvent());
+              }),
             ], child: const TrackMyWorkoutApp()))
           },
       blocObserver: kReleaseMode ? null : SimpleBlocObserver(),
       storage: storage);
-
-  await FirebaseHandler.getAllExercises();
 }
 
 class TrackMyWorkoutApp extends StatelessWidget {

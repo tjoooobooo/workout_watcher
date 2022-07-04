@@ -34,9 +34,7 @@ Future<void> init() async {
         () => PlanBloc(sl()),
   );
 
-  sl.registerLazySingleton<PlanCreateBloc>(
-        () => PlanCreateBloc(),
-  );
+  sl.registerLazySingleton<PlanCreateBloc>(() => PlanCreateBloc());
 
 
   // Use cases

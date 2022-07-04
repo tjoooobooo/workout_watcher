@@ -6,10 +6,14 @@ import 'package:workout_watcher/features/plans/data/models/plan_model.dart';
 import 'plan_create_event.dart';
 import 'plan_create_state.dart';
 
-class PlanCreateBloc extends HydratedBloc<PlanCreateEvent, PlanCreateState> {
+class PlanCreateBloc extends Bloc<PlanCreateEvent, PlanCreateState> {
   PlanCreateBloc() : super(const PlanCreateState()) {
+    on<InitialEvent>((event, emit) {
+      emit(state.copyWith(status: PlanCreateStateStatus.initial));
+    });
+
     on<StartedEditingEvent>((event, emit) {
-      emit(state.copyWith(status: PlanCreateStateStatus.initial, plan: event.plan));
+      emit(state.copyWith(status: PlanCreateStateStatus.editing, plan: event.plan));
     });
 
     on<UpdatePlanCreateEvent>((event, emit) {

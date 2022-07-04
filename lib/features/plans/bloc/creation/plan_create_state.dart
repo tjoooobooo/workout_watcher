@@ -4,6 +4,7 @@ import 'package:workout_watcher/features/plans/data/models/plan_model.dart';
 
 enum PlanCreateStateStatus {
   initial,
+  editing,
   error,
   updated,
   switchedDay,
@@ -26,6 +27,8 @@ extension PlanCreateStateStatusX on PlanCreateStateStatus {
   bool get isUpdating => this == PlanCreateStateStatus.updating;
 
   bool get hasUpdated => this == PlanCreateStateStatus.updated;
+
+  bool get isEditing => this == PlanCreateStateStatus.editing;
 }
 
 @immutable

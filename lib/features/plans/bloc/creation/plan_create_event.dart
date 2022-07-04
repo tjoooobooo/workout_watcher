@@ -11,6 +11,8 @@ abstract class PlanCreateEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class InitialEvent extends PlanCreateEvent {}
+
 class StartedEditingEvent extends PlanCreateEvent {
   final PlanModel plan;
 

@@ -8,6 +8,7 @@ import 'package:workout_watcher/features/plans/bloc/creation/plan_create_state.d
 import 'package:workout_watcher/features/plans/bloc/plan_bloc.dart';
 import 'package:workout_watcher/features/plans/bloc/plan_event.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_day_model.dart';
+import 'package:workout_watcher/features/plans/data/models/plan_model.dart';
 import 'package:workout_watcher/features/plans/presentation/widgets/plan_day_container.dart';
 import 'package:workout_watcher/features/plans/presentation/widgets/plan_day_page_indicator.dart';
 
@@ -21,7 +22,6 @@ class PlanPageDays extends StatefulWidget {
 }
 
 class _PlanPageDaysState extends State<PlanPageDays> {
-  final PlanCreateBloc planCreateBloc = sl<PlanCreateBloc>();
   final TextEditingController dayCtrl = TextEditingController();
   PlanDayModel? currentPlanDay;
   int currentDayNumber = 0;
@@ -34,7 +34,7 @@ class _PlanPageDaysState extends State<PlanPageDays> {
   @override
   void initState() {
     super.initState();
-    planCreateBloc.add(SwitchDayEvent(selectedDay: 0));
+    // sl<PlanCreateBloc>().add(SwitchDayEvent(selectedDay: 0));
   }
 
   @override
@@ -46,7 +46,8 @@ class _PlanPageDaysState extends State<PlanPageDays> {
             title: const Text("Tage"),
           actions: [
             IconButton(onPressed: () {
-              sl<PlanBloc>().add(UpdatePlanEvent(planCreateBloc.state.plan!));
+              PlanModel plan = sl<PlanCreateBloc>().state.plan!;
+              sl<PlanBloc>().add(UpdatePlanEvent(plan));
               sl<PlanBloc>().add(GetAllPlansEvent());
               GoRouter.of(context).go("/plans");
             }, icon: const Icon(Icons.save))
@@ -58,29 +59,21 @@ class _PlanPageDaysState extends State<PlanPageDays> {
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.all(2.0),
             child: BlocConsumer<PlanCreateBloc, PlanCreateState>(
-              bloc: planCreateBloc,
               listener: (context, state) async {
                 if (state.status.isInitial) {
                   List<PlanDayModel> planDays = state.plan!.planDays;
 
                   // initially set first day
                   setCurrentDay(planDays.elementAt(0));
-                  planCreateBloc.add(SwitchDayEvent(selectedDay: 0));
+                  sl<PlanCreateBloc>().add(SwitchDayEvent(selectedDay: 0));
                 } else if (state.status.isSwitchDay) {
                   FocusScope.of(context).unfocus();
                   await pageController.animateToPage(state.dayIndex!,
                       duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
                   // await Future.delayed(Duration(seconds: 2));
-                  planCreateBloc.add(SwitchedDayEvent());
+                  sl<PlanCreateBloc>().add(SwitchedDayEvent());
 
                 }
-              },
-              buildWhen: (previous, current) {
-                if (current.status.isInitial || current.status.hasChangedDayName) {
-                  return true;
-                }
-
-                return false;
               },
               builder: (context, state) {
                 List<PlanDayModel> planDays = state.plan!.planDays;
@@ -115,7 +108,7 @@ class _PlanPageDaysState extends State<PlanPageDays> {
                       onPageChanged: (value) {
                         currentDayNumber = value;
                         if (state.isCurrentlySwitchingDay != true) {
-                          planCreateBloc.add(SwitchDayEvent(selectedDay: value));
+                          sl<PlanCreateBloc>().add(SwitchDayEvent(selectedDay: value));
                         }
                       },
                     ),
