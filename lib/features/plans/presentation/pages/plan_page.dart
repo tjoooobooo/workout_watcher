@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
 import 'package:workout_watcher/core/presentation/widgets/icon_label_dropdown_row.dart';
+import 'package:workout_watcher/core/presentation/widgets/icon_label_switch_row.dart';
 import 'package:workout_watcher/core/presentation/widgets/icon_label_text_row.dart';
 import 'package:workout_watcher/core/presentation/widgets/section_header_container.dart';
 import 'package:workout_watcher/features/exercises/data/models/exercise_model.dart';
@@ -145,11 +146,11 @@ class _PlanPage extends State<PlanPage> {
                                   color: Theme.of(context).primaryColor,
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
-                                child: Column(children: [
-                                  IconLabelTextRow(
+                                child: Column(children: const [
+                                  IconLabelSwitchRow(
                                       iconData: Icons.abc_rounded,
-                                      label: "Name",
-                                      controller: nameCtrl),
+                                      label: "TODO RPE",
+                                      ),
                                 ]))
                           ],
                         ),

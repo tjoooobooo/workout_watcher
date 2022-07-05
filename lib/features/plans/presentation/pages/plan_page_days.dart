@@ -34,7 +34,7 @@ class _PlanPageDaysState extends State<PlanPageDays> {
   @override
   void initState() {
     super.initState();
-    // sl<PlanCreateBloc>().add(SwitchDayEvent(selectedDay: 0));
+    sl<PlanCreateBloc>().add(SwitchDayEvent(selectedDay: 0));
   }
 
   @override
