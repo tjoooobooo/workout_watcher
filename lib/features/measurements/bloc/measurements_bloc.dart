@@ -10,9 +10,10 @@ class MeasurementsBloc extends Bloc<MeasurementsEvent, MeasurementState> {
   MeasurementsBloc(this.measurementRepository)
       : super(const MeasurementState(status: MeasurementStateStatus.initial)) {
     on<GetAllMeasurementsEvent>((event, emit) async {
-      final Measurements =
+      emit(state.copyWith(status: MeasurementStateStatus.loading));
+      final measurements =
           await measurementRepository.getAll(event.refreshCache);
-      Measurements.fold(
+      measurements.fold(
           (failure) => emit(state.copyWith(status: MeasurementStateStatus.error)),
           (success) => emit(state.copyWith(
               status: MeasurementStateStatus.loaded, measurements: success)));

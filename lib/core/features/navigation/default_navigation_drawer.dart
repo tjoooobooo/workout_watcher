@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:workout_watcher/Views/ChartView.dart';
+import 'package:workout_watcher/features/charts/presentation/pages/chart_page.dart';
 import 'package:workout_watcher/ViewsList/MeasurementsListView.dart';
 import 'package:workout_watcher/utils/Utils.dart';
 
@@ -76,7 +76,7 @@ class DefaultNavigationDrawer extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ChartView()
+                          builder: (context) => ChartPage()
                       )
                   );
                 },

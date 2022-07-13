@@ -43,14 +43,16 @@ class _PlanPageDaysState extends State<PlanPageDays> {
 
     return Scaffold(
         appBar: AppBar(
-            title: const Text("Tage"),
+          title: const Text("Tage"),
           actions: [
-            IconButton(onPressed: () {
-              PlanModel plan = sl<PlanCreateBloc>().state.plan!;
-              sl<PlanBloc>().add(UpdatePlanEvent(plan));
-              sl<PlanBloc>().add(GetAllPlansEvent());
-              GoRouter.of(context).go("/plans");
-            }, icon: const Icon(Icons.save))
+            IconButton(
+                onPressed: () {
+                  PlanModel plan = sl<PlanCreateBloc>().state.plan!;
+                  sl<PlanBloc>().add(UpdatePlanEvent(plan));
+                  sl<PlanBloc>().add(GetAllPlansEvent());
+                  GoRouter.of(context).go("/plans");
+                },
+                icon: const Icon(Icons.save))
           ],
         ),
         body: Container(
@@ -72,7 +74,6 @@ class _PlanPageDaysState extends State<PlanPageDays> {
                       duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
                   // await Future.delayed(Duration(seconds: 2));
                   sl<PlanCreateBloc>().add(SwitchedDayEvent());
-
                 }
               },
               builder: (context, state) {
@@ -95,9 +96,8 @@ class _PlanPageDaysState extends State<PlanPageDays> {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: dayRowItems
-                      ),
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: dayRowItems),
                     ),
                   ),
                   const Divider(color: Colors.white),

@@ -7,6 +7,7 @@ import 'package:workout_watcher/Widgets/LoadWidget.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
 import 'package:workout_watcher/core/presentation/widgets/icon_label_date_row.dart';
 import 'package:workout_watcher/core/presentation/widgets/icon_label_text_row.dart';
+import 'package:workout_watcher/core/presentation/widgets/section_header_container.dart';
 import 'package:workout_watcher/core/util/text_formfield_validator.dart';
 import 'package:workout_watcher/features/measurements/presentation/widgets/measurement_page_header_container.dart';
 import 'package:workout_watcher/features/measurements/bloc/measurements_bloc.dart';
@@ -187,9 +188,7 @@ class _MeasurementPageState extends State<MeasurementPage> {
                                   dateCtrl: dateCtrl,
                                   kfaCtrl: kfaCtrl,
                                   bodyWeightCtrl: bodyWeightCtrl),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.025),
+                              const SectionHeaderContainer(header: "Umfänge"),
                               MeasurementSizesContainer(
                                   shouldersCtrl: shouldersCtrl,
                                   chestCtrl: chestCtrl,

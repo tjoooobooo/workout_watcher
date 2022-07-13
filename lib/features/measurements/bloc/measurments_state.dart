@@ -38,13 +38,7 @@ class MeasurementState extends Equatable {
       this.measurement});
 
   @override
-  List<Object> get props {
-    if (measurement == null) {
-      return [status, measurements];
-    } else {
-      return [status, measurements, measurement!];
-    }
-  }
+  List<Object?> get props => [status, measurement, measurements];
 
   MeasurementState copyWith(
       {MeasurementStateStatus? status,
@@ -52,7 +46,7 @@ class MeasurementState extends Equatable {
       MeasurementModel? measurement}) {
     return MeasurementState(
         status: status ?? this.status,
-        measurements: measurements ?? [],
+        measurements: measurements ?? this.measurements,
         measurement: measurement);
   }
 }

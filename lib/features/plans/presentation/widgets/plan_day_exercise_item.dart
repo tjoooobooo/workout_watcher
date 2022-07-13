@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_bloc.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_event.dart';
@@ -40,39 +41,44 @@ class PlanDayExerciseItem extends StatelessWidget {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(left: 14.0, right: 14.0),
-                      child: imageUrl != null
-                          ? CircleAvatar(
-                        radius: 28.0,
-                        backgroundImage: NetworkImage(imageUrl!),
-                        backgroundColor: Colors.transparent,
-                      )
-                          : const CircleAvatar(
-                          radius: 28.0, child: Icon(Icons.fitness_center)),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            exerciseName,
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                          ),
-                          Text(
-                            detail,
-                            textAlign: TextAlign.left,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ],
+                GestureDetector(
+                  onTap: () {
+                    GoRouter.of(context).push("/exercise/$exerciseId");
+                  },
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(left: 14.0, right: 14.0),
+                        child: imageUrl != null
+                            ? CircleAvatar(
+                          radius: 28.0,
+                          backgroundImage: NetworkImage(imageUrl!),
+                          backgroundColor: Colors.transparent,
+                        )
+                            : const CircleAvatar(
+                            radius: 28.0, child: Icon(Icons.fitness_center)),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              exerciseName,
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                            ),
+                            Text(
+                              detail,
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
                   padding: const EdgeInsets.only(right: 8.0, left: 14.0),

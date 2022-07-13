@@ -13,6 +13,7 @@ import 'package:workout_watcher/core/di/injection_container.dart' as di;
 import 'package:workout_watcher/core/features/login/bloc/bloc.dart';
 import 'package:workout_watcher/core/features/login/presentation/pages/login_page.dart';
 import 'package:workout_watcher/core/util/bloc_observer.dart';
+import 'package:workout_watcher/features/charts/bloc/charts_bloc.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_bloc.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_event.dart';
 import 'package:workout_watcher/features/measurements/bloc/measurements_bloc.dart';
@@ -57,6 +58,9 @@ Future<void> main() async {
                 return sl<PlanCreateBloc>()
                   ..add(InitialEvent());
               }),
+              BlocProvider<ChartsBloc>(create: (context) {
+                return sl<ChartsBloc>();
+              })
             ], child: const TrackMyWorkoutApp()))
           },
       blocObserver: kReleaseMode ? null : SimpleBlocObserver(),

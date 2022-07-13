@@ -37,12 +37,12 @@ class MeasurementSizesContainer extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(5.0),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-          const Text(
-            "Umfänge",
-            style: TextStyle(
-                color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold),
-          ),
+          // SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+          // const Text(
+          //   "Umfänge",
+          //   style: TextStyle(
+          //       color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold),
+          // ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.01),
           Column(children: [
             IconLabelTextRow(

@@ -38,13 +38,53 @@ class _PlanPage extends State<PlanPage> {
     }
   }
 
+  Future<String?> openCloseDialog() async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Plan bearbeitung beenden"),
+            content: const Text("Schließen ohne zu speichern?"),
+            actions: [
+              ElevatedButton(onPressed: () {
+                Navigator.of(context).pop("save");
+              }, child: const Text("Speichern")),
+              ElevatedButton(onPressed: () {
+                Navigator.of(context).pop("back");
+              }, child: const Text("Zurück")),
+              ElevatedButton(onPressed: () {
+                Navigator.of(context).pop("cancel");
+              }, child: const Text("Abbrechen")),
+            ],
+          );
+        });
+  }
+
+  // on pop function
+  Future<bool> onPop() async {
+
+    // TODO before opening dialog check if plan was edited
+
+    switch (await openCloseDialog()) {
+      case "save":
+        sl<PlanBloc>().add(UpdatePlanEvent(sl<PlanCreateBloc>().state.plan!));
+        break;
+      case "back":
+        // no specific action required
+        break;
+      case "cancel":
+      case null:
+        return false;
+    }
+
+    sl<PlanBloc>().add(GetAllPlansEvent());
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        sl<PlanBloc>().add(GetAllPlansEvent());
-        return true;
-      },
+      onWillPop: onPop,
       child: Scaffold(
           appBar: AppBar(
             title: const Text("Plan erstellen"),
@@ -76,7 +116,7 @@ class _PlanPage extends State<PlanPage> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.825,
+                      height: MediaQuery.of(context).size.height * 0.8,
                       width: MediaQuery.of(context).size.width,
                       child: SingleChildScrollView(
                         child: Column(
