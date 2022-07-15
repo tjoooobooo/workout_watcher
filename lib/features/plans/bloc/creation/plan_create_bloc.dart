@@ -1,7 +1,9 @@
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_day_model.dart';
+import 'package:workout_watcher/features/plans/data/models/plan_exception_exercise.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_model.dart';
+import 'package:workout_watcher/features/plans/data/models/plan_week_model.dart';
 
 import 'plan_create_event.dart';
 import 'plan_create_state.dart';
@@ -56,22 +58,16 @@ class PlanCreateBloc extends Bloc<PlanCreateEvent, PlanCreateState> {
       plan.replaceDay(state.dayIndex!, planDay);
       emit(state.copyWith(status: PlanCreateStateStatus.updated, plan: plan));
     });
-  }
 
-  @override
-  PlanCreateState? fromJson(Map<String, dynamic> json) {
-    return PlanCreateState(
-        status: EnumToString.fromString(PlanCreateStateStatus.values, json['status'])!,
-        plan: PlanModel.fromMap(json['plan']),
-        dayIndex: json['dayIndex']);
-  }
+    on<AddExceptionExerciseEvent>((event, emit) {
+      PlanExceptionExerciseModel exercise = event.exercise;
 
-  @override
-  Map<String, dynamic>? toJson(PlanCreateState state) {
-    return {
-      'status': EnumToString.convertToString(state.status),
-      'dayIndex': state.dayIndex,
-      'plan': state.plan!.toJSON()
-    };
+      PlanModel plan = state.plan!;
+      PlanWeekModel planWeek = plan.planWeeks[event.weekNr]!;
+      planWeek.addExceptionExercise(exercise);
+
+      plan.replaceWeek(event.weekNr, planWeek);
+      emit(state.copyWith(status: PlanCreateStateStatus.updated, plan: plan));
+    });
   }
 }

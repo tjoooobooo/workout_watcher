@@ -173,7 +173,7 @@ class _ExercisePageState extends State<ExercisePage> {
               Center(
                   child: BlocConsumer<ExercisesBloc, ExerciseState>(
                       listener: ((context, state) {
-                if (state.status == ExerciseStateStatus.loadedExercise) {
+                if (state.status == ExerciseStateStatus.loadedExercise && state.exercise?.id == widget.exerciseId) {
                   ExerciseModel exercise = state.exercise!;
 
                   exerciseId = exercise.id;

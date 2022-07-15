@@ -5,7 +5,7 @@ import 'package:workout_watcher/core/di/injection_container.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_bloc.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_event.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_state.dart';
-import 'package:workout_watcher/features/plans/presentation/pages/plan_page_days.dart';
+import 'package:workout_watcher/features/plans/presentation/pages/plan_days_page.dart';
 
 class PlanDayExerciseItem extends StatelessWidget {
   final String exerciseId;
@@ -80,16 +80,16 @@ class PlanDayExerciseItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.only(right: 8.0, left: 14.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [
-                      ExerciseAdditionalInfoContainer(itemText: "3 Sätze"),
-                      ExerciseAdditionalInfoContainer(itemText: "10 Wdh"),
-                    ],
-                  ),
-                )
+                // Container(
+                //   padding: const EdgeInsets.only(right: 8.0, left: 14.0),
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //     children: const [
+                //       ExerciseAdditionalInfoContainer(itemText: "3 Sätze"),
+                //       ExerciseAdditionalInfoContainer(itemText: "10 Wdh"),
+                //     ],
+                //   ),
+                // )
               ],
             );
           }

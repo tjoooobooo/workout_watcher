@@ -1,4 +1,4 @@
-import 'package:workout_watcher/Models/ExceptionalExercise.dart';
+import 'package:workout_watcher/features/plans/data/models/plan_exception_exercise.dart';
 
 class PlanWeek {
   String? name;
@@ -9,7 +9,7 @@ class PlanWeek {
   int? isoRpe;
   int? comRpe;
 
-  List<ExceptionalExercise> exceptionalExercises = [];
+  List<PlanExceptionExerciseModel> exceptionalExercises = [];
 
   PlanWeek({
     required this.name,

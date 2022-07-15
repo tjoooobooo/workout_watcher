@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:workout_watcher/features/exercises/data/models/exercise_model.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_model.dart';
 
 enum PlanCreateStateStatus {
@@ -10,7 +11,8 @@ enum PlanCreateStateStatus {
   switchedDay,
   switchDay,
   changedDayName,
-  updating
+  updating,
+  addExceptionExercise
 }
 
 extension PlanCreateStateStatusX on PlanCreateStateStatus {
@@ -29,6 +31,8 @@ extension PlanCreateStateStatusX on PlanCreateStateStatus {
   bool get hasUpdated => this == PlanCreateStateStatus.updated;
 
   bool get isEditing => this == PlanCreateStateStatus.editing;
+
+  bool get isAddExceptionExercise => this == PlanCreateStateStatus.addExceptionExercise;
 }
 
 @immutable
@@ -38,24 +42,29 @@ class PlanCreateState extends Equatable {
   final int? dayIndex;
   final bool? isCurrentlySwitchingDay;
 
+  final ExerciseModel? exceptionExercise;
+
   const PlanCreateState(
       {this.status = PlanCreateStateStatus.initial,
       this.plan,
       this.dayIndex,
-      this.isCurrentlySwitchingDay});
+      this.isCurrentlySwitchingDay,
+      this.exceptionExercise});
 
   @override
-  List<Object?> get props => [status, plan, dayIndex, isCurrentlySwitchingDay];
+  List<Object?> get props => [status, plan, dayIndex, isCurrentlySwitchingDay, exceptionExercise];
 
   PlanCreateState copyWith(
       {PlanCreateStateStatus? status,
       PlanModel? plan,
       int? dayIndex,
-      bool? isCurrentlySwitchingDay}) {
+      bool? isCurrentlySwitchingDay,
+      ExerciseModel? exceptionExercise}) {
     return PlanCreateState(
         status: status ?? this.status,
         plan: plan ?? this.plan,
         dayIndex: dayIndex ?? this.dayIndex,
-        isCurrentlySwitchingDay: isCurrentlySwitchingDay ?? this.isCurrentlySwitchingDay);
+        isCurrentlySwitchingDay: isCurrentlySwitchingDay ?? this.isCurrentlySwitchingDay,
+        exceptionExercise: exceptionExercise);
   }
 }

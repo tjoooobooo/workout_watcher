@@ -64,6 +64,12 @@ class PlanModel extends Equatable {
     return copyWith(planDays: currentDays);
   }
 
+  PlanModel replaceWeek(int index, PlanWeekModel planWeek) {
+    Map<int, PlanWeekModel> currentWeeks = planWeeks;
+    currentWeeks[index] = planWeek;
+    return copyWith(planWeeks: currentWeeks);
+  }
+
   void addPlanDay(PlanDayModel planDay) {
     planDays.add(planDay);
   }
@@ -116,7 +122,7 @@ class PlanModel extends Equatable {
       var rawPlanWeeks = map["planWeeks"];
       int counter = 0;
       rawPlanWeeks.forEach((element) {
-        newPlanWeeks[counter++] = PlanWeekModel.fromMap(element);
+        newPlanWeeks[counter++] = PlanWeekModel.fromJSON(element);
       });
     }
 
@@ -131,5 +137,5 @@ class PlanModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, name, cycles];
+  List<Object?> get props => [id, name, units, cycles, planDays, planWeeks];
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
+import 'package:workout_watcher/core/presentation/widgets/icon_label_button_row.dart';
 import 'package:workout_watcher/core/presentation/widgets/icon_label_dropdown_row.dart';
 import 'package:workout_watcher/core/presentation/widgets/icon_label_switch_row.dart';
 import 'package:workout_watcher/core/presentation/widgets/icon_label_text_row.dart';
@@ -186,11 +187,19 @@ class _PlanPage extends State<PlanPage> {
                                   color: Theme.of(context).primaryColor,
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
-                                child: Column(children: const [
-                                  IconLabelSwitchRow(
+                                child: Column(children: [
+                                  const IconLabelSwitchRow(
                                       iconData: Icons.abc_rounded,
                                       label: "TODO RPE",
                                       ),
+                                  IconLabelButtonRow(
+                                    iconData: FontAwesomeIcons.calendarWeek,
+                                    label: "Wochen anpassen",
+                                    buttonLabel: "Konfigurieren",
+                                    onPressed: () {
+                                      GoRouter.of(context).push("/plan-week");
+                                    },
+                                  ),
                                 ]))
                           ],
                         ),
@@ -202,7 +211,7 @@ class _PlanPage extends State<PlanPage> {
                       child: BlocListener<PlanBloc, PlanState>(
                         listener: (context, state) {
                           if (state.status.isAdded || state.status.isUpdated) {
-                            GoRouter.of(context).push("/plan-day/${state.plan?.id}");
+                            GoRouter.of(context).push("/plan-day");
                           }
                         },
                         child: ElevatedButton(

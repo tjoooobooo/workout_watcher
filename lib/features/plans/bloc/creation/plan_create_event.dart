@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:workout_watcher/features/exercises/data/models/exercise_model.dart';
 import 'package:workout_watcher/features/plans/bloc/creation/plan_create_state.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_day_model.dart';
+import 'package:workout_watcher/features/plans/data/models/plan_exception_exercise.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_model.dart';
 import 'package:workout_watcher/features/plans/data/models/plan_week_model.dart';
 
@@ -64,4 +66,14 @@ class AddExercisesToDayEvent extends PlanCreateEvent {
 
   @override
   List<Object> get props => [exerciseIds];
+}
+
+class AddExceptionExerciseEvent extends PlanCreateEvent {
+  final PlanExceptionExerciseModel exercise;
+  final int weekNr;
+
+  AddExceptionExerciseEvent({required this.exercise, required this.weekNr});
+
+  @override
+  List<Object> get props => [exercise, weekNr];
 }

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:workout_watcher/Dialog/AddExerciseDialog.dart';
 import 'package:workout_watcher/Widgets/LoadWidget.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
 import 'package:workout_watcher/core/features/navigation/default_navigation_drawer.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_bloc.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_event.dart';
 import 'package:workout_watcher/features/exercises/bloc/exercises_state.dart';
-import 'package:workout_watcher/features/exercises/data/models/exercise_model.dart';
 import 'package:workout_watcher/features/exercises/presentation/widgets/exercise_list_container.dart';
 import 'package:workout_watcher/features/exercises/presentation/widgets/exercise_list_search_container.dart';
 import 'package:workout_watcher/features/plans/bloc/creation/plan_create_bloc.dart';

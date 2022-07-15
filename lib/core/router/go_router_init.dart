@@ -7,9 +7,11 @@ import 'package:workout_watcher/features/exercises/presentation/pages/exercise_p
 import 'package:workout_watcher/features/exercises/presentation/pages/exercises_list_page.dart';
 import 'package:workout_watcher/features/measurements/presentation/pages/measurement_list.dart';
 import 'package:workout_watcher/features/measurements/presentation/pages/measurement_page.dart';
+import 'package:workout_watcher/features/plans/presentation/pages/plan_exception_exercise_selection_page.dart';
 import 'package:workout_watcher/features/plans/presentation/pages/plan_page.dart';
 import 'package:workout_watcher/features/plans/presentation/pages/plan_list_page.dart';
-import 'package:workout_watcher/features/plans/presentation/pages/plan_page_days.dart';
+import 'package:workout_watcher/features/plans/presentation/pages/plan_days_page.dart';
+import 'package:workout_watcher/features/plans/presentation/pages/plan_weeks_page.dart';
 
 GoRouter initGoRouter(AuthBloc authBloc) {
   return GoRouter(
@@ -20,8 +22,7 @@ GoRouter initGoRouter(AuthBloc authBloc) {
         GoRoute(
             path: "/",
             pageBuilder: (context, state) =>
-                NoTransitionPage<void>(
-                    key: state.pageKey, child: const LoginPage())),
+                NoTransitionPage<void>(key: state.pageKey, child: const LoginPage())),
         GoRoute(
             path: "/dashboard",
             pageBuilder: (context, state) =>
@@ -29,8 +30,7 @@ GoRouter initGoRouter(AuthBloc authBloc) {
         GoRoute(
             path: "/settings",
             pageBuilder: (context, state) =>
-                NoTransitionPage(
-                    key: state.pageKey, child: const SettingsView())),
+                NoTransitionPage(key: state.pageKey, child: const SettingsView())),
         GoRoute(
             path: "/plans",
             pageBuilder: (context, state) {
@@ -44,11 +44,22 @@ GoRouter initGoRouter(AuthBloc authBloc) {
               return NoTransitionPage(key: state.pageKey, child: PlanPage(planId: planId));
             }),
         GoRoute(
-            path: "/plan-day/:plan_id",
+            path: "/plan-day",
             pageBuilder: (context, state) {
-              String planId = (state.params["plan_id"] ?? 0).toString();
+              return NoTransitionPage(key: state.pageKey, child: const PlanDaysPage());
+            }),
+        GoRoute(
+            path: "/plan-week",
+            pageBuilder: (context, state) {
+              return NoTransitionPage(key: state.pageKey, child: PlanWeekPage());
+            }),
+        GoRoute(
+            path: "/plan-exception-exercise/:week_number",
+            pageBuilder: (context, state) {
+              int weekNr = int.parse((state.params["week_number"] ?? 0).toString());
 
-              return NoTransitionPage(key: state.pageKey, child: PlanPageDays(planId: planId));
+              return NoTransitionPage(
+                  key: state.pageKey, child: PlanExceptionExerciseSelectionPage(weekNr: weekNr));
             }),
         GoRoute(
             path: "/exercises",
@@ -63,23 +74,19 @@ GoRouter initGoRouter(AuthBloc authBloc) {
             pageBuilder: (context, state) {
               String exerciseId = (state.params["exercise_id"] ?? 0).toString();
 
-              return NoTransitionPage(key: state.pageKey, child: ExercisePage(
-                  exerciseId: exerciseId
-              ));
+              return NoTransitionPage(
+                  key: state.pageKey, child: ExercisePage(exerciseId: exerciseId));
             }),
         GoRoute(
             path: "/measurements",
             pageBuilder: (context, state) =>
-                NoTransitionPage(
-                    key: state.pageKey, child: const MeasurementList())),
+                NoTransitionPage(key: state.pageKey, child: const MeasurementList())),
         GoRoute(
             path: "/measurement/:measurement_id",
             pageBuilder: (context, state) {
-              String measurmentId = (state.params["measurement_id"] ?? 0)
-                  .toString();
+              String measurmentId = (state.params["measurement_id"] ?? 0).toString();
               return NoTransitionPage(
-                  key: state.pageKey,
-                  child: MeasurementPage(measurementId: measurmentId));
+                  key: state.pageKey, child: MeasurementPage(measurementId: measurmentId));
             })
       ],
       redirect: (state) {

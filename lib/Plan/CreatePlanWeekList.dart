@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_watcher/Dialog/AddExceptionalExerciseDialog.dart';
 import 'package:workout_watcher/Models/Plan.dart';
 import 'package:workout_watcher/Models/PlanWeek.dart';
-import 'package:workout_watcher/Plan/CreatePlanExceptionalExercises.dart';
+import 'package:workout_watcher/features/plans/presentation/pages/plan_exception_exercise_selection_page.dart';
 import 'package:workout_watcher/utils/FirebaseHandler.dart';
 
 class CreatePlanWeekList extends StatelessWidget {
@@ -30,10 +30,10 @@ class CreatePlanWeekList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Wochen bearbeiten"),
+          title: const Text("Wochen bearbeiten"),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.save),
+              icon: const Icon(Icons.save),
               tooltip: "Speichern",
               onPressed: () async {
                 for (var i = 0; i < this.plan.cycles; i++) {
@@ -110,7 +110,7 @@ class CreatePlanWeekList extends StatelessWidget {
                   child: ExpansionTile(
                     initiallyExpanded: true,
                     title: Container(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           top: 5,
                           bottom: 5
                       ),
@@ -145,25 +145,21 @@ class CreatePlanWeekList extends StatelessWidget {
                                           mainAxisAlignment: MainAxisAlignment
                                               .spaceEvenly,
                                           children: [
-                                            Container(
-                                                child: Text(
-                                                  "Isolations",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.bold
-                                                  ),
-                                                )
+                                            const Text(
+                                              "Isolations",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold
+                                              ),
                                             ),
-                                            Container(
-                                                child: Text(
-                                                  "Coms",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.bold
-                                                  ),
-                                                )
+                                            const Text(
+                                              "Coms",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold
+                                              ),
                                             ),
                                           ]
                                       ),
@@ -171,7 +167,7 @@ class CreatePlanWeekList extends StatelessWidget {
                                         mainAxisAlignment: MainAxisAlignment
                                             .spaceEvenly,
                                         children: [
-                                          Container(
+                                          SizedBox(
                                             width: MediaQuery
                                                 .of(context)
                                                 .size
@@ -182,7 +178,7 @@ class CreatePlanWeekList extends StatelessWidget {
                                               controller: isoWdhControllers[index],
                                             ),
                                           ),
-                                          Container(
+                                          SizedBox(
                                               width: MediaQuery
                                                   .of(context)
                                                   .size
@@ -199,7 +195,7 @@ class CreatePlanWeekList extends StatelessWidget {
                                         mainAxisAlignment: MainAxisAlignment
                                             .spaceEvenly,
                                         children: [
-                                          Container(
+                                          SizedBox(
                                             width: MediaQuery
                                                 .of(context)
                                                 .size
@@ -210,7 +206,7 @@ class CreatePlanWeekList extends StatelessWidget {
                                               controller: isoSetsControllers[index],
                                             ),
                                           ),
-                                          Container(
+                                          SizedBox(
                                               width: MediaQuery
                                                   .of(context)
                                                   .size
@@ -227,7 +223,7 @@ class CreatePlanWeekList extends StatelessWidget {
                                         mainAxisAlignment: MainAxisAlignment
                                             .spaceEvenly,
                                         children: [
-                                          Container(
+                                          SizedBox(
                                             width: MediaQuery
                                                 .of(context)
                                                 .size
@@ -238,7 +234,7 @@ class CreatePlanWeekList extends StatelessWidget {
                                               controller: isoRpeControllers[index],
                                             ),
                                           ),
-                                          Container(
+                                          SizedBox(
                                               width: MediaQuery
                                                   .of(context)
                                                   .size
@@ -260,27 +256,7 @@ class CreatePlanWeekList extends StatelessWidget {
                       ),
                     ),
                     trailing: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    CreatePlanExceptionalExercises(
-                                        plan: this.plan)
-                            )
-                        ).then((exercise) {
-                          if (exercise != null) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AddExceptionalExerciseDialog(exercise: exercise);
-                              },
-                            ).then((value) {
-
-                            });
-                          }
-                        });
-                      },
+                      onTap: () {},
                       child: Container(
                         height: MediaQuery
                             .of(context)
@@ -294,10 +270,10 @@ class CreatePlanWeekList extends StatelessWidget {
                             border: Border.all(
                               color: Colors.black,
                             ),
-                            borderRadius: BorderRadius.all(
+                            borderRadius: const BorderRadius.all(
                                 Radius.circular(20))
                         ),
-                        child: Icon(
+                        child: const Icon(
                             Icons.edit_outlined,
                             color: Colors.black
                         ),
@@ -313,7 +289,7 @@ class CreatePlanWeekList extends StatelessWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                              children: const [
                                 Text(
                                   "Bankdrücken"
                                 ),
@@ -327,7 +303,7 @@ class CreatePlanWeekList extends StatelessWidget {
                             alignment: Alignment.center,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
+                              children: const [
                                 Text("Wdh:"),
                                 Text("5"),
                                 Text("Sets:"),
@@ -367,27 +343,27 @@ class WeekInputWidget extends StatelessWidget {
         textAlign: TextAlign.center,
         keyboardType: textInputType,
         cursorColor: Colors.black,
-        style: TextStyle(
+        style: const TextStyle(
             color: Colors.black,
             fontSize: 12,
             fontWeight: FontWeight.bold
         ),
         decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
                 color: Colors.black54,
                 fontSize: 12,
                 fontWeight: FontWeight.bold
             ),
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
                 color: Colors.black,
                 fontSize: 12,
                 fontWeight: FontWeight.bold
             ),
-            enabledBorder: UnderlineInputBorder(
+            enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.black54),
             ),
-            focusedBorder: UnderlineInputBorder(
+            focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.black),
             ),
             focusColor: Colors.black,

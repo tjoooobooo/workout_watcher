@@ -12,16 +12,14 @@ import 'package:workout_watcher/features/plans/data/models/plan_model.dart';
 import 'package:workout_watcher/features/plans/presentation/widgets/plan_day_container.dart';
 import 'package:workout_watcher/features/plans/presentation/widgets/plan_day_page_indicator.dart';
 
-class PlanPageDays extends StatefulWidget {
-  final String planId;
-
-  const PlanPageDays({Key? key, required this.planId}) : super(key: key);
+class PlanDaysPage extends StatefulWidget {
+  const PlanDaysPage({Key? key}) : super(key: key);
 
   @override
-  State<PlanPageDays> createState() => _PlanPageDaysState();
+  State<PlanDaysPage> createState() => _PlanDaysPageState();
 }
 
-class _PlanPageDaysState extends State<PlanPageDays> {
+class _PlanDaysPageState extends State<PlanDaysPage> {
   final TextEditingController dayCtrl = TextEditingController();
   PlanDayModel? currentPlanDay;
   int currentDayNumber = 0;
