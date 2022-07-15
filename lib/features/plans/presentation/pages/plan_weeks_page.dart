@@ -150,7 +150,7 @@ class PlanWeekPage extends StatelessWidget {
                                           SizedBox(
                                             width: MediaQuery.of(context).size.width * 0.2,
                                             child: PlanWeekTextInput(
-                                              hint: "Woche ${index + 1}",
+                                              hint: "Woche ${index + 1}tst",
                                               textInputType: TextInputType.text,
                                               controller: nameControllers[index],
                                             ),
