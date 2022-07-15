@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
+import 'package:workout_watcher/core/util/proxy_decorater.dart';
 import 'package:workout_watcher/features/plans/bloc/creation/plan_create_bloc.dart';
 import 'package:workout_watcher/features/plans/bloc/creation/plan_create_event.dart';
 import 'package:workout_watcher/features/plans/bloc/creation/plan_create_state.dart';
@@ -33,6 +34,10 @@ class _PlanDaysPageState extends State<PlanDaysPage> {
   void initState() {
     super.initState();
     sl<PlanCreateBloc>().add(SwitchDayEvent(selectedDay: 0));
+  }
+
+  void onReorderDay(int oldIndex, int newIndex) {
+    sl<PlanCreateBloc>().add(ReorderDayEvent(oldIndex: oldIndex, newIndex: newIndex));
   }
 
   @override
@@ -76,40 +81,39 @@ class _PlanDaysPageState extends State<PlanDaysPage> {
               },
               builder: (context, state) {
                 List<PlanDayModel> planDays = state.plan!.planDays;
-                List<Widget> dayRowItems = [];
-                List<Widget> planDayInfoContainers = [];
-
                 currentPlanDay = currentPlanDay ?? planDays.elementAt(0);
-
-                for (int i = 0; i < planDays.length; i++) {
-                  PlanDayModel planDay = planDays.elementAt(i);
-
-                  dayRowItems.add(DayRowItem(name: planDay.name, dayNumber: i));
-                  planDayInfoContainers.add(PlanDayContainer(planDay: planDay, dayNumber: i));
-                }
 
                 return Column(children: [
                   SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.075,
                     width: MediaQuery.of(context).size.width,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: dayRowItems),
-                    ),
+                    child: ReorderableListView.builder(
+                        onReorder: onReorderDay,
+                        proxyDecorator: proxyDecorator,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: planDays.length,
+                        itemBuilder: (context, index) {
+                          PlanDayModel planDay = planDays.elementAt(index);
+                          return Container(
+                              key: Key(index.toString()),
+                              child: DayRowItem(name: planDay.name, dayNumber: index));
+                        }),
                   ),
                   const Divider(color: Colors.white),
                   Expanded(
-                    child: PageView(
-                      controller: pageController,
-                      children: planDayInfoContainers,
-                      onPageChanged: (value) {
-                        currentDayNumber = value;
-                        if (state.isCurrentlySwitchingDay != true) {
-                          sl<PlanCreateBloc>().add(SwitchDayEvent(selectedDay: value));
-                        }
-                      },
-                    ),
+                    child: PageView.builder(
+                        controller: pageController,
+                        onPageChanged: (value) {
+                          currentDayNumber = value;
+                          if (state.isCurrentlySwitchingDay != true) {
+                            sl<PlanCreateBloc>().add(SwitchDayEvent(selectedDay: value));
+                          }
+                        },
+                        itemCount: planDays.length,
+                        itemBuilder: (context, index) {
+                          return PlanDayContainer(
+                              planDay: planDays.elementAt(index), dayNumber: index);
+                        }),
                   ),
                 ]);
               },

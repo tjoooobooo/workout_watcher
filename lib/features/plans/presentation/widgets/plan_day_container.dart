@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
 import 'package:workout_watcher/core/presentation/widgets/icon_label_text_row.dart';
 import 'package:workout_watcher/core/presentation/widgets/section_header_container.dart';
+import 'package:workout_watcher/core/util/proxy_decorater.dart';
 import 'package:workout_watcher/features/plans/bloc/creation/plan_create_bloc.dart';
 import 'package:workout_watcher/features/plans/bloc/creation/plan_create_event.dart';
 import 'package:workout_watcher/features/plans/bloc/creation/plan_create_state.dart';
@@ -34,6 +37,10 @@ class _PlanDayContainerState extends State<PlanDayContainer> {
   void initState() {
     super.initState();
     dayNameCtrl.text = sl<PlanCreateBloc>().state.plan!.planDays.elementAt(widget.dayNumber).name;
+  }
+
+  void onReorder(int oldIndex, int newIndex) {
+    sl<PlanCreateBloc>().add(ReorderExerciseEvent(oldIndex: oldIndex, newIndex: newIndex));
   }
 
   @override
@@ -86,54 +93,58 @@ class _PlanDayContainerState extends State<PlanDayContainer> {
                   color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(15.0),
                 ),
-                child: SingleChildScrollView(
-                  child: BlocBuilder<PlanCreateBloc, PlanCreateState>(buildWhen: (pre, curr) {
-                    return curr.status.hasUpdated;
-                  }, builder: (context, state) {
-                    PlanDayModel planDay = state.plan!.planDays.elementAt(widget.dayNumber);
-                    List<Widget> exerciseItems = [];
+                child: BlocBuilder<PlanCreateBloc, PlanCreateState>(buildWhen: (pre, curr) {
+                  return curr.status.hasUpdated;
+                }, builder: (context, state) {
+                  PlanDayModel planDay = state.plan!.planDays.elementAt(widget.dayNumber);
+                  List<Widget> exerciseItems = [];
 
-                    for (var exerciseId in planDay.exercises) {
-                      exerciseItems.add(PlanDayExerciseItem(exerciseId: exerciseId));
-                    }
+                  for (var exerciseId in planDay.exercises) {
+                    exerciseItems.add(Container(key: Key(exerciseId), child: PlanDayExerciseItem(exerciseId: exerciseId)));
+                  }
 
-                    return Column(
-                      children: exerciseItems,
-                    );
-                  }),
-                )),
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        ReorderableListView(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          onReorder: onReorder,
+                          proxyDecorator: proxyDecorator,
+                          children: exerciseItems,
+                        ),
+                      ],
+                    ),
+                  );
+                })),
           ),
-          sl<PlanCreateBloc>().state.plan!.state != PlanModelStates.ready ?
-          Container(
-            width: MediaQuery.of(context).size.width * 0.925,
-            height: MediaQuery.of(context).size.height * 0.06,
-            margin: const EdgeInsets.only(
-              top: 6.0,
-              bottom: 6.0
-            ),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-              onPressed: () {
-                PlanModel plan = sl<PlanCreateBloc>().state.plan!;
-                PlanModel newPlan = plan.copyWith(
-                  state: PlanModelStates.ready
-                );
+          sl<PlanCreateBloc>().state.plan!.state != PlanModelStates.ready
+              ? Container(
+                  width: MediaQuery.of(context).size.width * 0.925,
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  margin: const EdgeInsets.only(top: 6.0, bottom: 6.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    onPressed: () {
+                      PlanModel plan = sl<PlanCreateBloc>().state.plan!;
+                      PlanModel newPlan = plan.copyWith(state: PlanModelStates.ready);
 
-                sl<PlanBloc>().add(UpdatePlanEvent(newPlan));
-                sl<PlanBloc>().add(GetAllPlansEvent());
-                GoRouter.of(context).go("/plans");
-              },
-              child: const Text(
-                "Bearbeitung abschließen",
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-          ) : Container()
+                      sl<PlanBloc>().add(UpdatePlanEvent(newPlan));
+                      sl<PlanBloc>().add(GetAllPlansEvent());
+                      GoRouter.of(context).go("/plans");
+                    },
+                    child: const Text(
+                      "Bearbeitung abschließen",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                )
+              : Container()
         ],
       );
     });

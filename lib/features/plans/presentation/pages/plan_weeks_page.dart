@@ -61,6 +61,12 @@ class PlanWeekPage extends StatelessWidget {
                 icon: const Icon(Icons.save),
                 tooltip: "Speichern",
                 onPressed: () async {
+                  await scrollController.animateTo(
+                      scrollController.position.maxScrollExtent,
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeIn
+                  );
+
                   Map<int, PlanWeekModel> planWeeks = {};
 
                   for (var i = 0; i < plan.cycles; i++) {
@@ -150,7 +156,7 @@ class PlanWeekPage extends StatelessWidget {
                                           SizedBox(
                                             width: MediaQuery.of(context).size.width * 0.2,
                                             child: PlanWeekTextInput(
-                                              hint: "Woche ${index + 1}tst",
+                                              hint: "Woche ${index + 1}",
                                               textInputType: TextInputType.text,
                                               controller: nameControllers[index],
                                             ),

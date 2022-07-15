@@ -44,18 +44,80 @@ class _PlanPage extends State<PlanPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Plan bearbeitung beenden"),
+            actionsAlignment: MainAxisAlignment.spaceAround,
+            actionsOverflowDirection: VerticalDirection.down,
+            actionsOverflowButtonSpacing: 2,
+            backgroundColor: Theme.of(context).primaryColorLight,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            title: Column(
+              children: [
+                const Text("Plan bearbeitung beenden"),
+                Divider(color: Theme.of(context).primaryColorDark, thickness: 2.0)
+              ],
+            ),
             content: const Text("Schließen ohne zu speichern?"),
             actions: [
-              ElevatedButton(onPressed: () {
-                Navigator.of(context).pop("save");
-              }, child: const Text("Speichern")),
-              ElevatedButton(onPressed: () {
-                Navigator.of(context).pop("back");
-              }, child: const Text("Zurück")),
-              ElevatedButton(onPressed: () {
-                Navigator.of(context).pop("cancel");
-              }, child: const Text("Abbrechen")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop("save");
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.green.shade400),
+                  ),
+                  child: const Text("Speichern", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop("back");
+                  },
+                  style:
+                      ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red.shade400)),
+                  child: const Text("Zurück", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop("cancel");
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)),
+                  child: const Text("Abbrechen", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+            ],
+          );
+        });
+  }
+
+  Future<bool?> openDeleteDialog() async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            actionsAlignment: MainAxisAlignment.spaceEvenly,
+            backgroundColor: Theme.of(context).primaryColorLight,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            title: Column(
+              children: [
+                const Text("Plan löschen?"),
+                Divider(color: Theme.of(context).primaryColorDark, thickness: 2.0)
+              ],
+            ),
+            content: const Text("Bist du sicher, dass du den Plan endgültig löschen willst?"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  style:
+                      ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red.shade400)),
+                  child: const Text("Löschen", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)),
+                  child: const Text("Abbrechen", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
             ],
           );
         });
@@ -63,7 +125,6 @@ class _PlanPage extends State<PlanPage> {
 
   // on pop function
   Future<bool> onPop() async {
-
     // TODO before opening dialog check if plan was edited
 
     switch (await openCloseDialog()) {
@@ -84,6 +145,14 @@ class _PlanPage extends State<PlanPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isPlanExistent = false;
+
+    for (var plan in sl<PlanBloc>().state.plans!) {
+      if (plan.id == widget.planId) {
+        isPlanExistent = true;
+      }
+    }
+
     return WillPopScope(
       onWillPop: onPop,
       child: Scaffold(
@@ -96,7 +165,23 @@ class _PlanPage extends State<PlanPage> {
                     sl<PlanBloc>().add(GetAllPlansEvent());
                     GoRouter.of(context).pop();
                   },
-                  icon: const Icon(Icons.save))
+                  icon: const Icon(Icons.save)),
+              isPlanExistent
+                  ? IconButton(
+                      onPressed: () {
+                        openDeleteDialog().then((shouldDeletePlan) {
+                          if (shouldDeletePlan != null && shouldDeletePlan) {
+                            sl<PlanBloc>().add(DeletePlanEvent(widget.planId));
+                            sl<PlanBloc>().add(GetAllPlansEvent());
+                            GoRouter.of(context).pop();
+                          }
+                        });
+                      },
+                      icon: Icon(
+                        FontAwesomeIcons.trashCan,
+                        color: Colors.red.shade400,
+                      ))
+                  : Container(),
             ],
           ),
           body: SingleChildScrollView(
@@ -189,9 +274,9 @@ class _PlanPage extends State<PlanPage> {
                                 ),
                                 child: Column(children: [
                                   const IconLabelSwitchRow(
-                                      iconData: Icons.abc_rounded,
-                                      label: "TODO RPE",
-                                      ),
+                                    iconData: Icons.abc_rounded,
+                                    label: "TODO RPE",
+                                  ),
                                   IconLabelButtonRow(
                                     iconData: FontAwesomeIcons.calendarWeek,
                                     label: "Wochen anpassen",

@@ -52,6 +52,7 @@ class PlanCreateBloc extends Bloc<PlanCreateEvent, PlanCreateState> {
     });
 
     on<AddExercisesToDayEvent>((event, emit) {
+      emit(state.copyWith(status: PlanCreateStateStatus.updating));
       PlanModel plan = state.plan!;
       PlanDayModel planDay = plan.planDays.elementAt(state.dayIndex!);
       planDay.exercises.addAll(event.exerciseIds);
@@ -59,7 +60,17 @@ class PlanCreateBloc extends Bloc<PlanCreateEvent, PlanCreateState> {
       emit(state.copyWith(status: PlanCreateStateStatus.updated, plan: plan));
     });
 
+    on<DeleteExerciseFromDayEvent>((event, emit) {
+      emit(state.copyWith(status: PlanCreateStateStatus.updating));
+      PlanModel plan = state.plan!;
+      PlanDayModel planDay = plan.planDays.elementAt(state.dayIndex!);
+      planDay.exercises.remove(event.exerciseId);
+      plan.replaceDay(state.dayIndex!, planDay);
+      emit(state.copyWith(status: PlanCreateStateStatus.updated, plan: plan));
+    });
+
     on<AddExceptionExerciseEvent>((event, emit) {
+      emit(state.copyWith(status: PlanCreateStateStatus.updating));
       PlanExceptionExerciseModel exercise = event.exercise;
 
       PlanModel plan = state.plan!;
@@ -67,6 +78,37 @@ class PlanCreateBloc extends Bloc<PlanCreateEvent, PlanCreateState> {
       planWeek.addExceptionExercise(exercise);
 
       plan.replaceWeek(event.weekNr, planWeek);
+      emit(state.copyWith(status: PlanCreateStateStatus.updated, plan: plan));
+    });
+
+    on<ReorderExerciseEvent>((event, emit) {
+      int oldIndex = event.oldIndex;
+      int newIndex = event.newIndex;
+
+      if (newIndex > oldIndex) {
+        newIndex -= 1;
+      }
+      emit(state.copyWith(status: PlanCreateStateStatus.updating));
+      PlanModel plan = state.plan!;
+      PlanDayModel planDay = plan.planDays.elementAt(state.dayIndex!);
+      final String exercise = planDay.exercises.removeAt(oldIndex);
+      planDay.exercises.insert(newIndex, exercise);
+      plan.replaceDay(state.dayIndex!, planDay);
+      emit(state.copyWith(status: PlanCreateStateStatus.updated, plan: plan));
+    });
+
+    on<ReorderDayEvent>((event, emit) {
+      int oldIndex = event.oldIndex;
+      int newIndex = event.newIndex;
+
+      if (newIndex > oldIndex) {
+        newIndex -= 1;
+      }
+
+      emit(state.copyWith(status: PlanCreateStateStatus.updating));
+      PlanModel plan = state.plan!;
+      PlanDayModel planDay = plan.planDays.removeAt(oldIndex);
+      plan.planDays.insert(newIndex, planDay);
       emit(state.copyWith(status: PlanCreateStateStatus.updated, plan: plan));
     });
   }

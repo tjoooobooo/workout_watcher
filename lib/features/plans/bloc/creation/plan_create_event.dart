@@ -68,6 +68,15 @@ class AddExercisesToDayEvent extends PlanCreateEvent {
   List<Object> get props => [exerciseIds];
 }
 
+class DeleteExerciseFromDayEvent extends PlanCreateEvent {
+  final String exerciseId;
+
+  DeleteExerciseFromDayEvent({required this.exerciseId});
+
+  @override
+  List<Object> get props => [exerciseId];
+}
+
 class AddExceptionExerciseEvent extends PlanCreateEvent {
   final PlanExceptionExerciseModel exercise;
   final int weekNr;
@@ -76,4 +85,24 @@ class AddExceptionExerciseEvent extends PlanCreateEvent {
 
   @override
   List<Object> get props => [exercise, weekNr];
+}
+
+class ReorderExerciseEvent extends PlanCreateEvent {
+  final int oldIndex;
+  final int newIndex;
+
+  ReorderExerciseEvent({required this.oldIndex, required this.newIndex});
+
+  @override
+  List<Object> get props => [oldIndex, newIndex];
+}
+
+class ReorderDayEvent extends PlanCreateEvent {
+  final int oldIndex;
+  final int newIndex;
+
+  ReorderDayEvent({required this.oldIndex, required this.newIndex});
+
+  @override
+  List<Object> get props => [oldIndex, newIndex];
 }

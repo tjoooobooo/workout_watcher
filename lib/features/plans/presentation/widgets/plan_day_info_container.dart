@@ -35,10 +35,10 @@ class PlanDaySummaryContainer extends StatelessWidget {
                 "${planDay.exercises.length} Übungen",
                 style: const TextStyle(fontSize: 16),
               ),
-              Text(
-                "$setCount Sätze",
-                style: const TextStyle(fontSize: 16),
-              ),
+              // Text(
+              //   "$setCount Sätze",
+              //   style: const TextStyle(fontSize: 16),
+              // ),
             ],
           )),
     );
