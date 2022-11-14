@@ -25,15 +25,18 @@ import 'package:workout_watcher/features/plans/bloc/plan_event.dart';
 import 'package:workout_watcher/utils/FirebaseHandler.dart';
 
 import 'Views/DashboardView.dart';
+import 'firebase_options.dart';
 import 'utils/AuthenticationService.dart';
 
 Future<void> main() async {
   Loggy.initLoggy();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await di.init();
   final storage = await HydratedStorage.build(
-    storageDirectory: await getTemporaryDirectory(),
+    storageDirectory: kIsWeb
+        ? HydratedStorage.webStorageDirectory
+        : await getTemporaryDirectory(),
   );
 
   HydratedBlocOverrides.runZoned(

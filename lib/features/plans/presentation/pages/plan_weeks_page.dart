@@ -66,6 +66,11 @@ class PlanWeekPage extends StatelessWidget {
                       duration: const Duration(milliseconds: 200),
                       curve: Curves.easeIn
                   );
+                  await scrollController.animateTo(
+                      0.0,
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeIn
+                  );
 
                   Map<int, PlanWeekModel> planWeeks = {};
 
@@ -78,6 +83,7 @@ class PlanWeekPage extends StatelessWidget {
                       comWdh: getValue(comWdhControllers.elementAt(i)),
                       comSets: getValue(comSetsControllers.elementAt(i)),
                       comRpe: getValue(comRpeControllers.elementAt(i)),
+                      exceptionalExercises: plan.planWeeks[i]!.exceptionalExercises
                     );
                   }
 
@@ -90,6 +96,15 @@ class PlanWeekPage extends StatelessWidget {
         ),
         body: BlocBuilder<PlanCreateBloc, PlanCreateState>(builder: (context, state) {
           PlanModel plan = state.plan!;
+          plan.planWeeks.forEach((key, value) {
+            nameControllers.add(TextEditingController());
+            isoWdhControllers.add(TextEditingController());
+            isoSetsControllers.add(TextEditingController());
+            isoRpeControllers.add(TextEditingController());
+            comWdhControllers.add(TextEditingController());
+            comSetsControllers.add(TextEditingController());
+            comRpeControllers.add(TextEditingController());
+          });
 
           return Container(
             color: Theme.of(context).primaryColorDark,
@@ -97,14 +112,6 @@ class PlanWeekPage extends StatelessWidget {
               controller: scrollController,
                 itemCount: plan.cycles,
                 itemBuilder: (context, index) {
-                  nameControllers.add(TextEditingController());
-                  isoWdhControllers.add(TextEditingController());
-                  isoSetsControllers.add(TextEditingController());
-                  isoRpeControllers.add(TextEditingController());
-                  comWdhControllers.add(TextEditingController());
-                  comSetsControllers.add(TextEditingController());
-                  comRpeControllers.add(TextEditingController());
-
                   List<PlanExceptionExerciseModel> exceptionExercises = [];
 
                   if (plan.planWeeks.containsKey(index)) {

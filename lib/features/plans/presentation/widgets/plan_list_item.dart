@@ -43,10 +43,7 @@ class PlanListItem extends StatelessWidget {
         child: Container(
             height: MediaQuery.of(context).size.height * 0.1,
             width: MediaQuery.of(context).size.width * 0.975,
-            margin: const EdgeInsets.only(
-              top: 4.0,
-              bottom: 4.0,
-            ),
+            margin: const EdgeInsets.all(4.0),
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.circular(15.0),

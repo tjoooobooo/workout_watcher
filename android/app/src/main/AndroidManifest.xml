@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.thomas.workout_watcher">
+    package="de.thomas.workout_watcher.workout_watcher_web">
    <application
-        android:label="workout_watcher"
+        android:label="workout_watcher_web"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

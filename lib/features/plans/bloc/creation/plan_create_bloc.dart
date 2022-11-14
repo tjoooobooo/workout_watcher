@@ -22,8 +22,13 @@ class PlanCreateBloc extends Bloc<PlanCreateEvent, PlanCreateState> {
       if (state.plan != null) {
         emit(state.copyWith(
             status: PlanCreateStateStatus.updated,
-            plan:
-                state.plan!.copyWith(name: event.name, units: event.units, cycles: event.cycles)));
+            plan: state.plan!.copyWith(
+                name: event.name,
+                state: event.state,
+                units: event.units,
+                cycles: event.cycles,
+                planWeeks: event.planWeeks,
+                planDays: event.planDays)));
       }
     });
 

@@ -12,8 +12,9 @@ import 'package:workout_watcher/features/plans/presentation/pages/plan_days_page
 
 class PlanDayExerciseItem extends StatelessWidget {
   final String exerciseId;
+  final bool showDelete;
 
-  const PlanDayExerciseItem({Key? key, required this.exerciseId}) : super(key: key);
+  const PlanDayExerciseItem({Key? key, required this.exerciseId, this.showDelete = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,31 +22,31 @@ class PlanDayExerciseItem extends StatelessWidget {
     String detail = "";
     String? imageUrl;
 
-    return Container(
-        margin: const EdgeInsets.all(4.0),
-        height: MediaQuery.of(context).size.height * 0.11,
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.circular(15.0),
-            border: Border.all(color: Theme.of(context).primaryColorDark, width: 2.0)),
-        child: BlocConsumer<ExercisesBloc, ExerciseState>(
-            bloc: sl<ExercisesBloc>()..add(GetExerciseEvent(exerciseId)),
-            listener: (context, state) {
-              if (state.status.isLoadedExercise && state.exercise!.id == exerciseId) {
-                exerciseName = state.exercise!.name + ", " + state.exercise!.detail;
-                detail = state.exercise!.getEquipmentLabel();
-                imageUrl = state.exercise!.imageUrl;
-              }
-            },
-            builder: (context, state) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      GoRouter.of(context).push("/exercise/$exerciseId");
-                    },
-                    child: Row(
+    return GestureDetector(
+      onTap: () {
+        GoRouter.of(context).push("/exercise/$exerciseId");
+      },
+      child: Container(
+          margin: const EdgeInsets.all(4.0),
+          height: MediaQuery.of(context).size.height * 0.11,
+          decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(15.0),
+              border: Border.all(color: Theme.of(context).primaryColorDark, width: 2.0)),
+          child: BlocConsumer<ExercisesBloc, ExerciseState>(
+              bloc: sl<ExercisesBloc>()..add(GetExerciseEvent(exerciseId)),
+              listener: (context, state) {
+                if (state.status.isLoadedExercise && state.exercise!.id == exerciseId) {
+                  exerciseName = state.exercise!.name + ", " + state.exercise!.detail;
+                  detail = state.exercise!.getEquipmentLabel();
+                  imageUrl = state.exercise!.imageUrl;
+                }
+              },
+              builder: (context, state) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
                       children: [
                         Container(
                           padding: const EdgeInsets.only(left: 14.0, right: 14.0),
@@ -79,23 +80,24 @@ class PlanDayExerciseItem extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(right: 8.0, left: 14.0),
-                    child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                      IconButton(
-                          onPressed: () {
-                            sl<PlanCreateBloc>()
-                                .add(DeleteExerciseFromDayEvent(exerciseId: exerciseId));
-                          },
-                          icon: Icon(
-                            FontAwesomeIcons.trash,
-                            color: Colors.red.shade400,
-                          ))
-                    ]),
-                  )
-                ],
-              );
-            }));
+                    showDelete ?
+                    Container(
+                      padding: const EdgeInsets.only(right: 8.0, left: 14.0),
+                      child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                        IconButton(
+                            onPressed: () {
+                              sl<PlanCreateBloc>()
+                                  .add(DeleteExerciseFromDayEvent(exerciseId: exerciseId));
+                            },
+                            icon: Icon(
+                              FontAwesomeIcons.trash,
+                              color: Colors.red.shade400,
+                            ))
+                      ]),
+                    ) : Container()
+                  ],
+                );
+              })),
+    );
   }
 }

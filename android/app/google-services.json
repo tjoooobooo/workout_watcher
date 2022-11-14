@@ -70,6 +70,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46132335341:android:a42faf58778266fc1872e4",
+        "android_client_info": {
+          "package_name": "de.thomas.workout_watcher.workout_watcher_web"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "46132335341-gdm174l1e26dce1fcdmdas6b3pv5obf4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE_hmHYv2tGmHlYvaOQFViyjhvARvGWBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "46132335341-gdm174l1e26dce1fcdmdas6b3pv5obf4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

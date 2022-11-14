@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_watcher/Widgets/LoadWidget.dart';
-import 'WorkoutView.dart';
+import '../features/workout/presentation/pages/workout_page.dart';
 import 'package:workout_watcher/core/features/navigation/default_navigation_drawer.dart';
 
 class DashboardView extends StatefulWidget {
@@ -36,7 +36,7 @@ class _DashboardView extends State<DashboardView> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => WorkoutView()
+                                builder: (context) => WorkoutPage()
                             )
                         );
                       },

@@ -46,52 +46,58 @@ class PlanExceptionExerciseSelectionPage extends StatelessWidget {
           child: BlocBuilder<ExercisesBloc, ExerciseState>(
               bloc: sl<ExercisesBloc>()..add(GetAllExercisesEvent()),
               builder: (context, state) {
-                if (state.status.isLoaded) {
-                  Map<ExerciseModel, String> planExercises = {};
+                Map<ExerciseModel, String> planExercises = {};
 
-                  for (var planDay in sl<PlanCreateBloc>().state.plan!.planDays) {
-                    for (var exerciseId in planDay.exercises) {
-                      final exercise = getExercise(exerciseId);
-                      planExercises[exercise!] = planDay.name;
-                    }
+                for (var planDay in sl<PlanCreateBloc>().state.plan!.planDays) {
+                  for (var exerciseId in planDay.exercises) {
+                    final exercise = getExercise(exerciseId);
+                    planExercises[exercise!] = planDay.name;
                   }
-
-                  return ListView.builder(
-                      itemCount: planExercises.length,
-                      itemBuilder: (context, index) {
-                        ExerciseModel exercise = planExercises.keys.elementAt(index);
-                        String dayName = planExercises.values.elementAt(index);
-
-                        return GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AddExceptionalExerciseDialog(
-                                    exercise: exercise, dayNr: index, weekNr: weekNr);
-                              },
-                            ).then((value) {
-                              GoRouter.of(context).pop();
-                            });
-                          },
-                          child: Card(
-                            color: Theme.of(context).colorScheme.primary,
-                            child: ListTile(
-                              leading: Container(
-                                width: MediaQuery.of(context).size.width * 0.2,
-                                alignment: Alignment.centerLeft,
-                                child: Text(dayName),
-                              ),
-                              title: Text(exercise.name),
-                              subtitle: Text(exercise.detail),
-                              trailing: Text(exercise.type == "compound" ? "com" : "iso"),
-                            ),
-                          ),
-                        );
-                      });
-                } else {
-                  return const LoadingWidget();
                 }
+
+                return ListView.builder(
+                    itemCount: planExercises.length,
+                    itemBuilder: (context, index) {
+                      ExerciseModel exercise = planExercises.keys.elementAt(index);
+                      String dayName = planExercises.values.elementAt(index);
+
+                      return GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AddExceptionalExerciseDialog(
+                                  exercise: exercise, dayNr: index, weekNr: weekNr);
+                            },
+                          ).then((value) {
+                            GoRouter.of(context).pop();
+                          });
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.all(4.0),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            border: Border.all(color: Colors.black, width: 2.0),
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: ListTile(
+                            leading: Container(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              alignment: Alignment.centerLeft,
+                              child: Text(dayName),
+                            ),
+                            title: Text(
+                                exercise.name +
+                                    (exercise.detail.isNotEmpty ? "," + exercise.detail : ""),
+                                style: const TextStyle(color: Colors.white)),
+                            subtitle: Text(exercise.getEquipmentLabel(),
+                                style: const TextStyle(color: Colors.white)),
+                            trailing: Text(exercise.type == "compound" ? "com" : "iso",
+                                style: const TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                      );
+                    });
               }),
         ));
   }

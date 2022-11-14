@@ -313,7 +313,7 @@ class _CreatePlanMainState extends State<CreatePlanMainPage> {
                                                     content: Text(
                                                         "Bist du sicher, dass du die Einheit \'$planDay\' löschen willst?"),
                                                     actions: <Widget>[
-                                                      FlatButton(
+                                                      TextButton(
                                                         child: const Text(
                                                             "Bestätigen"),
                                                         onPressed: () {
@@ -324,7 +324,7 @@ class _CreatePlanMainState extends State<CreatePlanMainPage> {
                                                           });
                                                         },
                                                       ),
-                                                      FlatButton(
+                                                      TextButton(
                                                         child: const Text(
                                                             "Abbrechen"),
                                                         onPressed: () {
@@ -344,8 +344,7 @@ class _CreatePlanMainState extends State<CreatePlanMainPage> {
                                                 workoutPlan!.planDays
                                                     .removeAt(
                                                     index);
-                                                Scaffold
-                                                    .of(context)
+                                                ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                     SnackBar(
                                                         content: Text(

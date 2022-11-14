@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workout_watcher/Views/DashboardView.dart';
 import 'package:workout_watcher/Views/SettingsView.dart';
@@ -17,7 +20,7 @@ GoRouter initGoRouter(AuthBloc authBloc) {
   return GoRouter(
       initialLocation: "/dashboard",
       debugLogDiagnostics: true,
-      urlPathStrategy: UrlPathStrategy.path,
+      // urlPathStrategy: UrlPathStrategy.path,
       routes: [
         GoRoute(
             path: "/",
@@ -89,7 +92,7 @@ GoRouter initGoRouter(AuthBloc authBloc) {
                   key: state.pageKey, child: MeasurementPage(measurementId: measurmentId));
             })
       ],
-      redirect: (state) {
+      redirect: (context, state) {
         bool isLoggedIn = authBloc.state.status.isLoggedIn;
 
         // redirect if user is not logged in
@@ -101,5 +104,21 @@ GoRouter initGoRouter(AuthBloc authBloc) {
 
         return null;
       },
-      refreshListenable: GoRouterRefreshStream(authBloc.stream));
+      refreshListenable: AuthStateNotifier(authBloc));
+}
+
+class AuthStateNotifier extends ChangeNotifier {
+  late final StreamSubscription<AuthState> _blocStream;
+  AuthStateNotifier(AuthBloc bloc) {
+    _blocStream = bloc.stream.listen((event) {
+      notifyListeners();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _blocStream.cancel();
+  }
 }
