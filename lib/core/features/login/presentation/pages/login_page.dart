@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
+                      width: MediaQuery.of(context).size.width > 650 ? 650 : MediaQuery.of(context).size.width * 0.9,
                       padding: const EdgeInsets.all(20.0),
                       decoration: BoxDecoration(
                         color: Colors.black,

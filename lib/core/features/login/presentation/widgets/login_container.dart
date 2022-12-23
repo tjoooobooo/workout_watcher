@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:workout_watcher/Widgets/CustomFormField.dart';
 import 'package:workout_watcher/Widgets/LoadWidget.dart';
 import 'package:workout_watcher/core/di/injection_container.dart';
@@ -97,43 +98,28 @@ class _LoginContainer extends State<LoginContainer> {
           const SizedBox(height: 10.0),
           BlocBuilder<AuthBloc, AuthState>(
             builder: ((context, state) {
+              bool hasError = false;
+
               if (state.status == AuthStateStatus.loading) {
                 return const LoadingWidget();
               } else if (state.status == AuthStateStatus.error) {
-                return Column(
-                  children: [
-                    const Text(
-                      "Error",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (formGlobalKey.currentState!.validate()) {
-                          context.read<AuthBloc>().add(LogInEvent(
-                              emailCtrl.text.trim(), passCtrl.text.trim()));
-                        }
-                      },
-                      child: const Text(
-                        "Einloggen",
-                        style: TextStyle(fontSize: 24),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        sl<AuthBloc>().add(RegistrationModeEvent());
-                      },
-                      child: const Text(
-                        "Registrieren",
-                        style: TextStyle(fontSize: 24),
-                      ),
-                    )
-                  ],
-                );
+                hasError = true;
               }
 
               return Column(
                 children: [
+                  hasError ?
                   SizedBox(
+                    child: Text(
+                      "Error: ${state.message}",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ) : Container(),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.005,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.3,
                     child: ElevatedButton(
                       onPressed: () {
                         if (formGlobalKey.currentState!.validate()) {
@@ -146,9 +132,12 @@ class _LoginContainer extends State<LoginContainer> {
                         style: TextStyle(fontSize: 24),
                       ),
                     ),
-                    width: MediaQuery.of(context).size.width * 0.75,
                   ),
                   SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.005,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.3,
                     child: ElevatedButton(
                       onPressed: () {
                         sl<AuthBloc>().add(RegistrationModeEvent());
@@ -158,7 +147,6 @@ class _LoginContainer extends State<LoginContainer> {
                         style: TextStyle(fontSize: 24),
                       ),
                     ),
-                    width: MediaQuery.of(context).size.width * 0.75,
                   ),
                 ],
               );
@@ -166,13 +154,13 @@ class _LoginContainer extends State<LoginContainer> {
           ),
           const SizedBox(height: 10.0),
           SizedBox(
+            width: MediaQuery.of(context).size.width * 0.75,
             child: RichText(
                 textAlign: TextAlign.right,
                 text: TextSpan(
                     text: "Passwort vergessen? ",
                     style: const TextStyle(fontSize: 16),
                     recognizer: TapGestureRecognizer()..onTap = () {})),
-            width: MediaQuery.of(context).size.width * 0.75,
           ),
         ],
       ),

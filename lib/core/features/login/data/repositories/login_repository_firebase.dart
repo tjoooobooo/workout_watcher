@@ -37,8 +37,10 @@ class LoginRepositoryFirebase extends LoginRepository {
           email: email, password: password);
 
       return right(_firebaseAuth.currentUser!.toUser);
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      return left(LoginFailure(message: e.message ?? ""));
     } catch (_) {
-      return left(LoginFailure());
+      return left(const LoginFailure(message: ""));
     }
   }
 

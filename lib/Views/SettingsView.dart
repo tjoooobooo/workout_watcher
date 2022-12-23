@@ -36,7 +36,6 @@ class _SettingsViewState extends State<SettingsView> {
                       ElevatedButton(
                           onPressed: () {
                             sl<AuthBloc>().add(LogOutEvent());
-                            // GoRouter.of(context).go("/");
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

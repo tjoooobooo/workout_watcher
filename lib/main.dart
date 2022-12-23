@@ -82,6 +82,7 @@ class TrackMyWorkoutApp extends StatelessWidget {
       title: "Workout-Watcher",
       debugShowCheckedModeBanner: false,
       // Routing
+      routeInformationProvider: goRouter.routeInformationProvider,
       routeInformationParser: goRouter.routeInformationParser,
       routerDelegate: goRouter.routerDelegate,
       // Theme
@@ -107,17 +108,17 @@ class TrackMyWorkoutApp extends StatelessWidget {
   }
 }
 
-class AuthenticationWrapper extends StatelessWidget {
-  const AuthenticationWrapper({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User?>();
-
-    if (firebaseUser != null) {
-      return DashboardView();
-    }
-
-    return const LoginPage();
-  }
-}
+// class AuthenticationWrapper extends StatelessWidget {
+//   const AuthenticationWrapper({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final firebaseUser = context.watch<User?>();
+//
+//     if (firebaseUser != null) {
+//       return DashboardView();
+//     }
+//
+//     return const LoginPage();
+//   }
+// }

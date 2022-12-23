@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:workout_watcher/core/features/login/bloc/bloc.dart';
 import 'package:workout_watcher/core/features/login/data/repositories/login_repository_firebase.dart';
@@ -14,6 +15,7 @@ import 'package:workout_watcher/features/plans/bloc/creation/plan_create_bloc.da
 import 'package:workout_watcher/features/plans/bloc/plan_bloc.dart';
 import 'package:workout_watcher/features/plans/data/repositories/plan_repository_firebase.dart';
 import 'package:workout_watcher/features/plans/domain/repositories/plan_repository.dart';
+import 'package:workout_watcher/utils/AuthenticationService.dart';
 
 final sl = GetIt.instance;
 
@@ -32,13 +34,12 @@ Future<void> init() async {
   );
 
   sl.registerLazySingleton<PlanBloc>(
-        () => PlanBloc(sl()),
+    () => PlanBloc(sl()),
   );
 
   sl.registerLazySingleton<PlanCreateBloc>(() => PlanCreateBloc());
 
   sl.registerLazySingleton<ChartsBloc>(() => ChartsBloc());
-
 
   // Use cases
 
@@ -46,10 +47,8 @@ Future<void> init() async {
 
   // Repository
   sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryFirebase());
-  sl.registerLazySingleton<ExerciseRepository>(
-      () => ExerciseRepositoryFirebase());
-  sl.registerLazySingleton<MeasurementRepository>(
-      () => MeasurementRepositoryFirebase());
+  sl.registerLazySingleton<ExerciseRepository>(() => ExerciseRepositoryFirebase());
+  sl.registerLazySingleton<MeasurementRepository>(() => MeasurementRepositoryFirebase());
   sl.registerLazySingleton<PlanRepository>(() => PlanRepositoryFirebase());
 
   // Data sources

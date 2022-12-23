@@ -20,7 +20,6 @@ GoRouter initGoRouter(AuthBloc authBloc) {
   return GoRouter(
       initialLocation: "/dashboard",
       debugLogDiagnostics: true,
-      // urlPathStrategy: UrlPathStrategy.path,
       routes: [
         GoRoute(
             path: "/",
@@ -82,8 +81,9 @@ GoRouter initGoRouter(AuthBloc authBloc) {
             }),
         GoRoute(
             path: "/measurements",
-            pageBuilder: (context, state) =>
-                NoTransitionPage(key: state.pageKey, child: const MeasurementList())),
+            pageBuilder: (context, state) {
+                return NoTransitionPage(key: state.pageKey, child: const MeasurementList());
+            }),
         GoRoute(
             path: "/measurement/:measurement_id",
             pageBuilder: (context, state) {
@@ -102,23 +102,26 @@ GoRouter initGoRouter(AuthBloc authBloc) {
           return "/dashboard";
         }
 
-        return null;
+        return isLoggedIn ? null : "/";
       },
-      refreshListenable: AuthStateNotifier(authBloc));
+      refreshListenable: authBloc);
 }
 
-class AuthStateNotifier extends ChangeNotifier {
-  late final StreamSubscription<AuthState> _blocStream;
-  AuthStateNotifier(AuthBloc bloc) {
-    _blocStream = bloc.stream.listen((event) {
-      notifyListeners();
-    });
+class GoRouterRefreshStream extends ChangeNotifier {
+  GoRouterRefreshStream(Stream<dynamic> stream) {
+    notifyListeners();
+    _subscription = stream.asBroadcastStream().listen(
+          (dynamic _) {
+            notifyListeners();
+          },
+    );
   }
+
+  late final StreamSubscription<dynamic> _subscription;
 
   @override
   void dispose() {
+    _subscription.cancel();
     super.dispose();
-
-    _blocStream.cancel();
   }
 }

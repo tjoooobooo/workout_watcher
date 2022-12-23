@@ -31,7 +31,7 @@ class AuthenticationService {
           password: password
       );
 
-      await this.signIn(email: email, password: password);
+      await signIn(email: email, password: password);
 
       return "Signed up";
 
@@ -40,14 +40,13 @@ class AuthenticationService {
     }
   }
 
-  Future<void> userSetup({required String surName, required String name}) async {
+  Future<void> userSetup({required String name}) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     User user = firebaseAuth.currentUser!;
 
     firestore.collection("Users").doc(user.uid).set(
         {
           "uid": user.uid,
-          "surName": surName,
           "name": name
         }
     );

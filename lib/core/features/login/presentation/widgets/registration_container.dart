@@ -52,25 +52,25 @@ class _RegistrationContainerState extends State<RegistrationContainer> {
               hint: "Email",
               errorMsg: "Bitte Email eingeben",
             ),
-            // CustomTextFormField(
-            //     hint: "Passwort",
-            //     errorMsg: "Bitte Passwort eingeben",
-            //     controller: passCtrl
-            // ),
+            CustomTextFormField(
+                hint: "Passwort",
+                errorMsg: "Bitte Passwort eingeben",
+                controller: passCtrl
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
                   onPressed: () async {
                     if (formGlobalKey.currentState!.validate()) {
-                      await context.read<AuthenticationService>().signUp(
+                      context.read<AuthenticationService>().signUp(
                           email: emailCtrl.text.trim(),
                           password: passCtrl.text.trim()
-                      );
-
-                      // await context.read<AuthenticationService>().userSetup(
-                      //     name: nameCtrl.text.trim()
-                      // );
+                      ).then((value) => {
+                        context.read<AuthenticationService>().userSetup(
+                        name: nameCtrl.text.trim()
+                        )
+                      });
                     }
                   },
                   child: const Text(

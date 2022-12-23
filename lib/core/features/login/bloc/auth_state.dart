@@ -27,16 +27,18 @@ extension AuthStateStatusX on AuthStateStatus {
 class AuthState extends Equatable {
   final AuthStateStatus status;
   final UserModel user;
+  final String message;
 
   const AuthState({
     this.status = AuthStateStatus.login,
     this.user = UserModel.empty,
+    this.message = ""
   });
 
   @override
   List<Object> get props => [status, UserModel.empty];
 
-  AuthState copyWith({AuthStateStatus? status, UserModel user = UserModel.empty}) {
-    return AuthState(status: status ?? this.status, user: user);
+  AuthState copyWith({AuthStateStatus? status, UserModel user = UserModel.empty, String message = ""}) {
+    return AuthState(status: status ?? this.status, user: user, message: message);
   }
 }

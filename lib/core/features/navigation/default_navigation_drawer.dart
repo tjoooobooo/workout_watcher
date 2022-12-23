@@ -42,7 +42,7 @@ class DefaultNavigationDrawer extends StatelessWidget {
                     // close the drawer
                     Navigator.pop(context);
 
-                    GoRouter.of(context).go("/dashboard");
+                    GoRouter.of(context).push("/dashboard");
                   }),
               ListTile(
                   leading: const Icon(
@@ -96,7 +96,7 @@ class DefaultNavigationDrawer extends StatelessWidget {
                   // close the drawer
                   Navigator.pop(context);
 
-                  GoRouter.of(context).go("/measurements");
+                  GoRouter.of(context).push("/measurements");
                 },
               ),
               ListTile(
@@ -129,7 +129,7 @@ class DefaultNavigationDrawer extends StatelessWidget {
                     // close the drawer
                     Navigator.pop(context);
 
-                    GoRouter.of(context).go("/plans");
+                    GoRouter.of(context).push("/plans");
                   }
                   ),
               ListTile(
@@ -145,7 +145,7 @@ class DefaultNavigationDrawer extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.pop(context);
-                  GoRouter.of(context).go("/exercises");
+                  GoRouter.of(context).push("/exercises");
                 },
               ),
 
@@ -163,7 +163,7 @@ class DefaultNavigationDrawer extends StatelessWidget {
                 onTap: () {
                   Navigator.pop(context);
 
-                 GoRouter.of(context).go("/settings");
+                 GoRouter.of(context).push("/settings");
                 },
               ),
             ],
